@@ -15,7 +15,7 @@
     --color-text-main: hsl(var(--hue-brand), 10%, 95%);
     --color-text-muted: hsl(var(--hue-brand), 5%, 70%);
     --color-primary: hsl(var(--hue-brand), 80%, 65%);
-    --color-secondary: hsl(var(--hue-accent), 70%, 50%);
+    --color-secondary: hsl(var(--hue-accent), 20%, 50%);
 
     /* Gradients */
     --gradient-main: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
@@ -281,6 +281,23 @@ section {
     /* Simple single column for now, can be grid on larger screens */
 }
 
+/* Centered intro block used in the Contact section */
+.contact-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contact-hero h2 {
+    margin-bottom: 0.5rem;
+}
+
+.contact-hero p {
+    margin: 0 auto;
+    max-width: 65ch; /* keep line-length readable */
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
 .contact-form {
     display: flex;
     flex-direction: column;
@@ -312,6 +329,17 @@ footer {
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     margin-top: var(--spacing-xl);
+}
+
+/* Footer credits — center and normalize spacing */
+.footer-credits {
+    text-align: center;
+}
+
+.footer-credits p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
 }
 
 /* Mobile Responsive */
