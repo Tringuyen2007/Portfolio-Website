@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Creative Developer</title>
+    <meta name="description" content="Portfolio of a creative developer specializing in building digital experiences.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Portfolio.</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Building Digital <br><span>Experiences</span></h1>
+            <p>I'm a creative developer passionate about building accessible, pixel-perfect, and performant web
+                applications.</p>
+            <div class="hero-buttons">
+                <a href="#work" class="btn btn-primary">View Work</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="work">
+        <div class="container">
+            <h2>Selected Work</h2>
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <article class="project-card">
+                    <div class="project-image"></div> <!-- Placeholder -->
+                    <div class="project-info">
+                        <h3>Project Name</h3>
+                        <p>A brief description of the project and the problem it solves.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JS</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-card">
+                    <div class="project-image"></div>
+                    <div class="project-info">
+                        <h3>Another Project</h3>
+                        <p>A brief description of the project and the problem it solves.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card">
+                    <div class="project-image"></div>
+                    <div class="project-info">
+                        <h3>Creative Demo</h3>
+                        <p>A brief description of the project and the problem it solves.</p>
+                        <div class="project-tags">
+                            <span class="tag">WebGL</span>
+                            <span class="tag">Three.js</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>
+                    Hello! I'm a developer based in [Your Location]. I enjoy creating things that live on the internet.
+                    My interest in web development started back in 2020 when I decided to try editing custom Tumblr
+                    themes —
+                    turns out hacking together HTML & CSS is pretty fun!
+                </p>
+                <p>
+                    Fast-forward to today, and I've had the privilege of working at an advertising agency, a start-up,
+                    and a huge corporation. My main focus these days is building accessible, inclusive products and
+                    digital experiences.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2>Get In Touch</h2>
+                <p>Have a project in mind or just want to say hi? My inbox is always open.</p>
+            </div>
+
+            <form class="contact-form">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea rows="5" placeholder="Message" required></textarea>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Portfolio. Built with HTML & CSS.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
