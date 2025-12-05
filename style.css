@@ -222,6 +222,25 @@ section {
     margin-top: var(--spacing-md);
 }
 
+/* Profile image: centered and framed */
+.profile-pic {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%; /* circular */
+    object-fit: cover; /* crop to fill */
+    display: block;
+    margin: 0 auto var(--spacing-md); /* center and add spacing below */
+    border: 6px solid rgba(255, 255, 255, 0.06); /* subtle frame */
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6), 0 4px 10px rgba(100, 80, 255, 0.08);
+}
+
+@media (max-width: 600px) {
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+    }
+}
+
 /* Projects Section */
 .project-grid {
     display: grid;
