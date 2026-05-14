@@ -10,7 +10,7 @@ export function SiteFooter() {
       <Container className="flex flex-col gap-4 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <p className="text-text-secondary">
-            {siteConfig.name} · built with Next.js, MDX, and a deliberately calm system.
+            {siteConfig.name} 
           </p>
           <p>Last updated {buildTimestamp}</p>
         </div>
