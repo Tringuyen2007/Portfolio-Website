@@ -1,0 +1,37 @@
+---
+slug: "datafest-2026"
+title: "DataFest 2026"
+summary: "A 30-hour data science competition at SMU where we built an XGBoost readmission prediction model to surface how care fragmentation drives worse patient outcomes."
+year: 2026
+stack:
+  - "Python"
+  - "XGBoost"
+  - "Data Science"
+  - "Hackathon"
+featured: true
+archived: false
+repo: "https://github.com/Tringuyen2007/DataFest2026"
+---
+
+## Overview
+
+ASA DataFest at SMU 2026 was a 30-hour competition centered on a core question: why do some patients bounce back to the hospital so quickly after discharge?
+
+Our answer was care fragmentation — patients cycling through multiple providers and departments with no continuity — and we built a full analysis and prediction pipeline to prove it.
+
+## What I built
+
+- **XGBoost readmission model** — trained to predict 30-day hospital readmission using a tiered feature set: admission-level clinical signals, prior utilization history, chronic condition flags, social determinants of health (SDOH), and demographic factors.
+- **Feature engineering pipeline** — engineered readmission labels and a feature matrix from raw encounter data, including intra-encounter handoff flags (cases where the attending and discharge provider differ within a single visit) and 12-month utilization history.
+- **Data cleaning and normalization** — handled missing data, diagnosis frequency analysis, and built aggregated outputs for the dashboard.
+- **Streamlit dashboard** — interactive visualizations surfacing fragmentation patterns, risk tiers, and outcome correlations across the patient cohort.
+
+## The core hypothesis
+
+Higher care fragmentation — measured by unique provider count, department transitions, and continuity gaps — predicts worse outcomes (longer stays, higher readmission, more encounters). Patients from socially disadvantaged backgrounds experience significantly more fragmentation, compounding existing health inequities.
+
+The model also tested a second, more granular hypothesis: intra-encounter handoff rates predict worse outcomes independent of cross-encounter fragmentation.
+
+## Takeaway
+
+Thirty hours forces you to make fast decisions about what matters. Feature selection, data trust, and clearly scoped hypotheses were more important than model complexity. XGBoost on well-engineered features beat chasing a fancier architecture.

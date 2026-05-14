@@ -1,0 +1,36 @@
+---
+slug: "vending-machine-robot"
+title: "Vending Machine Robot"
+summary: "A payment and admin web application paired with autonomous robot navigation powered by real-time human detection and computer vision."
+year: 2025
+stack:
+  - "OpenVINO"
+  - "Computer Vision"
+  - "Flask"
+  - "JavaScript"
+  - "CSS"
+featured: true
+archived: false
+repo: "https://github.com/Vendning-Machine-Team/Vending_Machine_Robot-Hardware"
+---
+
+## Overview
+
+This project combined two parts that had to cooperate cleanly: a web application for payment and admin flows, and an autonomous robot powered by real-time computer vision. The interesting challenge was not just making each piece work in isolation — it was keeping the full system reliable enough that a robot could operate in a real environment around real people.
+
+## What I built
+
+- **Real-time human detection and tracking** — implemented using OpenVINO to give the robot awareness of people in its environment, enabling safe and responsive autonomous interaction.
+- **Robot movement and hardware control** — engineered the movement logic and hardware control layer to support autonomous navigation and consistent operational reliability.
+- **Automated pathfinding** — built obstacle-aware navigation using computer vision techniques so the robot could move through its environment without manual guidance.
+- **Web application** — a Flask-based admin and payment surface for the operator-facing side of the system.
+
+## What made it interesting
+
+The software had to work in the physical world, which raised the stakes on every decision. Human detection needed to be fast and accurate enough to be genuinely safe. Pathfinding had to handle real obstacles, not just simulated ones. And the web layer had to stay reliable while the robot was doing its own thing in parallel.
+
+That meant thinking across both product concerns — how does an operator manage this? — and systems concerns — how does the robot stay aware of its environment?
+
+## Takeaway
+
+This project pushed me toward software that touches the real world and has immediate consequences if something goes wrong. That constraint makes you more careful and more precise, and it is the kind of engineering I want to keep doing.

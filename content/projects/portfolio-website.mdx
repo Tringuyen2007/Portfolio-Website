@@ -1,0 +1,41 @@
+---
+slug: "portfolio-website"
+title: "Personal Website"
+summary: "A calm, scalable portfolio built with typed MDX content, static rendering, and a system designed to grow without getting noisy."
+year: 2026
+stack:
+  - "Next.js"
+  - "TypeScript"
+  - "MDX"
+  - "Tailwind CSS"
+featured: true
+archived: false
+repo: "https://github.com/Tringuyen2007/Portfolio-Website"
+---
+
+## Overview
+
+This site is intentionally not overbuilt.
+
+The goal was to create a personal website that feels calm and credible, loads quickly, works well on mobile, and makes it easy to add richer project stories over time. The architecture follows a simple rule: keep the content local, keep the surface fast, and only add more infrastructure when there is a concrete reason.
+
+## Architecture choices
+
+- **Next.js App Router** for a clean route structure and strong static-first defaults.
+- **MDX-backed project content** so every case study can live in version control with structured frontmatter and long-form narrative.
+- **Content adapter functions** so page components are insulated from the storage layer.
+- **Tailwind plus CSS variables** to keep the design system centralized and easy to adjust.
+
+The point was not to maximize tools. It was to create a foundation that stays maintainable while still leaving room for future writing, analytics, and live GitHub enrichment.
+
+## Design direction
+
+The visual system stays close to soft charcoal surfaces, restrained contrast, generous spacing, and typography that does not fight for attention.
+
+That tone matters for a portfolio. I want the site itself to signal judgment: enough design intention to feel memorable, but not so much that it distracts from the work.
+
+## Why it matters
+
+This project is a container for everything else. If the portfolio is slow, messy, or hard to update, it quietly undercuts the projects inside it.
+
+Building the site this way turns it into a long-term system instead of a one-off landing page.

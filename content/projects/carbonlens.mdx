@@ -1,0 +1,51 @@
+---
+slug: "carbonlens"
+title: "CarbonLens"
+summary: "A full-stack urban carbon compliance platform built at EcoHack 2026, combining real emissions data, a RAG-powered AI analyst, and interactive city comparisons."
+year: 2026
+stack:
+  - "Python"
+  - "React"
+  - "AI"
+  - "Hackathon"
+featured: true
+archived: false
+repo: "https://github.com/Tringuyen2007/CarbonLens"
+---
+
+## Overview
+
+Cities are passing ambitious climate laws. Building owners are getting fined. Almost nobody has a clear picture of where they actually stand.
+
+That was the gap we wanted to close at EcoHack 2026. CarbonLens is a full-stack platform that combines real emissions data, a RAG-powered AI analyst, and interactive city comparisons to help planners, sustainability officers, and researchers make sense of urban carbon compliance — covering laws like NYC's Local Law 97, Boston's BERDO 2.0, and DC's Building Energy Performance Standards.
+
+## What it does
+
+- Interactive emissions map across 20 major US cities with sector-level CO2e breakdowns
+- Building Performance Standards tracker with live compliance status against LL97, BERDO 2.0, DC BEPS, and more
+- AI Emissions Analyst — multi-turn chat grounded in 18 real compliance documents via RAG
+- AI-generated decarbonization recommendations ranked by estimated impact
+- Side-by-side city comparison, what-if scenario sliders, and 5-year historical trend charts
+- Full offline demo mode — no backend required
+
+## Stack
+
+React 18, Vite, Tailwind CSS, FastAPI, MongoDB Atlas, ChromaDB, OpenAI GPT-4o-mini, Google Gemini 2.0 Flash Lite, Climate TRACE API, NREL API, EIA API.
+
+## The hard parts
+
+**Data cleaning took most of the time.** We pulled city emissions from three sources — Climate TRACE, NREL, and EIA — and coverage was inconsistent across all 20 cities. Units were mismatched, reporting years didn't align, and some sectors were simply missing. Every visualization and AI recommendation downstream depended on getting this right, so we spent a significant portion of the project normalizing data and filling gaps with regional averages where primary data was unavailable.
+
+**RAG pipeline tuning.** The first retrieval pass was poor because we had chunked PDFs at fixed token intervals, splitting paragraphs mid-sentence. Switching to semantic chunking at section and paragraph boundaries meaningfully improved answer quality. We also hit a ChromaDB persistence bug — the vector store was being re-initialized on every server restart, wiping the index. The fix was initializing the collection inside FastAPI's lifespan hook rather than at module import time.
+
+**Two models, one service layer.** We used GPT-4o-mini for compliance Q&A (benefits from tight grounding) and Gemini 2.0 Flash Lite for recommendations (more generative by nature). Managing both under a single service layer added complexity but kept the rest of the app clean — swapping either model later touches minimal surface area.
+
+**Frontend performance.** Rendering 20 cities with sector breakdowns, trends, and compliance statuses simultaneously caused cascading re-renders. Lazy loading city panels on demand and memoizing selectors resolved it.
+
+## What didn't ship
+
+A live BPS penalty calculator — enter your building's square footage and energy use, get a projected fine. The math is straightforward but wiring it correctly across multiple compliance regimes with different baseline years and exemptions ran out of time. It's first on the post-hackathon roadmap.
+
+## Takeaway
+
+The biggest lesson was underestimating data work. In any project pulling from multiple public APIs, the pipeline and coverage validation should be built and tested before writing a single line of application code.

@@ -1,0 +1,37 @@
+---
+slug: "vision"
+title: "Vision"
+summary: "A full-stack real estate feasibility platform that evaluates parcel build potential using zoning constraints, construction cost models, and live comparable market data."
+year: 2026
+stack:
+  - "Python"
+  - "RAG"
+  - "Google Gemini"
+  - "Structural Analysis"
+  - "Full-Stack"
+featured: true
+archived: false
+repo: "https://github.com/cayden-h/Vision"
+---
+
+## Overview
+
+Vision is a real estate feasibility platform that answers a hard question quickly: can you build on a parcel, and what will it cost? It pulls together zoning rules, construction cost models, and live market data to give developers and engineers a clear picture before committing to a site.
+
+I was a major contributor on the project, responsible for the data pipeline, structural analysis engine, and the AI-powered compliance layer.
+
+## What I built
+
+- **RAG pipeline** — integrated Google Gemini Pro with a curated engineering knowledge base to generate plain-language structural code compliance explanations. Developers can ask questions about a site and get grounded, citation-backed answers rather than raw code text.
+- **Structural analysis engine** — built a deterministic engine implementing AISC 360-16 and ASCE 7-22 load combinations to evaluate beam capacity, deflection, and code compliance. The math runs reproducibly with no model hallucination risk.
+- **Full-stack feasibility platform** — architected the broader system that ties zoning constraints, cost models, and comparable market data into a single evaluation surface.
+
+## What made it interesting
+
+This project sat at an unusual intersection: real engineering standards meet language model output. The structural analysis had to be deterministic and auditable — no room for a model to guess at a load combination. The RAG layer handled the parts where natural language genuinely helps: explaining *why* a beam fails, or what a code section means in plain terms.
+
+Getting that boundary right — where to trust the model and where to trust the math — was the most valuable design problem on the project.
+
+## Takeaway
+
+Vision pushed me to build systems where correctness is non-negotiable. Structural compliance is not a place for approximate answers, and designing around that constraint made me a sharper engineer.

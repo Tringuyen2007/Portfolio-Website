@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #14161a;
+  --bg-elevated: #1b1e22;
+  --bg-soft: #20242a;
+  --border: #2a2d31;
+  --text-primary: #e6e7e9;
+  --text-secondary: #9ba1a8;
+  --text-muted: #6a7079;
+  --accent: #c7cbd1;
+  --accent-strong: #f3f4f6;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-soft: var(--bg-soft);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-bg font-sans text-text-primary antialiased;
+    background-image:
+      radial-gradient(circle at top, rgba(231, 233, 237, 0.05), transparent 42rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%);
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  ::selection {
+    background: rgba(199, 203, 209, 0.25);
+    color: var(--text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted;
+  }
+
+  .surface {
+    @apply rounded-3xl border border-border bg-bg-elevated/90;
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-full border border-border bg-bg-soft px-3 py-1 text-sm text-text-secondary;
+  }
+
+  [data-prose] {
+    @apply text-base leading-8 text-text-secondary;
+  }
+
+  [data-prose] > :first-child {
+    @apply mt-0;
+  }
+
+  [data-prose] h2 {
+    @apply mt-12 text-2xl font-semibold tracking-tight text-text-primary;
+  }
+
+  [data-prose] h3 {
+    @apply mt-10 text-xl font-semibold tracking-tight text-text-primary;
+  }
+
+  [data-prose] p,
+  [data-prose] ul,
+  [data-prose] ol,
+  [data-prose] blockquote,
+  [data-prose] pre {
+    @apply mt-5;
+  }
+
+  [data-prose] ul,
+  [data-prose] ol {
+    @apply space-y-3 pl-5;
+  }
+
+  [data-prose] ul {
+    list-style: disc;
+  }
+
+  [data-prose] ol {
+    list-style: decimal;
+  }
+
+  [data-prose] li::marker {
+    color: var(--text-muted);
+  }
+
+  [data-prose] strong {
+    @apply font-semibold text-text-primary;
+  }
+
+  [data-prose] a {
+    @apply text-text-primary underline decoration-border underline-offset-4 hover:decoration-accent;
+  }
+
+  [data-prose] blockquote {
+    @apply rounded-2xl border border-border bg-bg-soft px-5 py-4 text-text-primary;
+  }
+
+  [data-prose] code {
+    @apply rounded-md bg-bg-soft px-1.5 py-0.5 font-mono text-[0.92em] text-text-primary;
+  }
+
+  [data-prose] pre {
+    @apply overflow-x-auto rounded-2xl border border-border bg-[#16191d] p-5;
+  }
+
+  [data-prose] pre code {
+    @apply bg-transparent p-0 text-sm;
+  }
+
+  [data-prose] hr {
+    @apply mt-10 border-border;
+  }
+}
