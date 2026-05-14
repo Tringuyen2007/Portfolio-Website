@@ -4,7 +4,7 @@ import { getAllProjects } from "@/lib/content/projects";
 import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const coreRoutes = ["", "/about", "/projects", "/writing", "/contact"];
+  const coreRoutes = ["", "/about", "/projects", "/experience", "/contact"];
   const projects = getAllProjects().map((project) => ({
     url: absoluteUrl(`/projects/${project.slug}`),
     lastModified: new Date(),

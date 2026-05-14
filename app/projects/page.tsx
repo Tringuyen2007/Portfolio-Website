@@ -22,7 +22,7 @@ export default function ProjectsPage() {
         <div className="space-y-4">
           <span className="eyebrow">Projects</span>
           <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
-            A small set of projects with enough detail to be useful.
+            Projects I&apos;ve worked and collaborated on.
           </h1>
           <p className="max-w-3xl text-base leading-8 text-text-secondary sm:text-lg">
             I care about the narrative as much as the build itself. Each project page
