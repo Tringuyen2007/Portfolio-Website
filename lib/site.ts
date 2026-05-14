@@ -16,7 +16,6 @@ export const siteConfig = {
     "TypeScript",
     "Next.js",
     "Data Science",
-    "UI Systems",
   ],
   navItems: [
     { label: "Projects", href: "/projects" },
