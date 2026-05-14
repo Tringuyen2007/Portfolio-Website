@@ -32,10 +32,19 @@ export default function HomePage() {
       <JsonLd data={personJsonLd} />
 
       <section className="py-18 sm:py-24">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
+        <Container className="space-y-8">
+          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-start">
             <div className="space-y-7">
-              <span className="eyebrow">{siteConfig.role}</span>
+              <div className="space-y-3">
+                <span className="eyebrow">{siteConfig.role}</span>
+                <div className="flex flex-wrap gap-2">
+                  {siteConfig.skills.map((skill) => (
+                    <span className="pill" key={skill}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               <div className="space-y-4">
                 <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-balance text-text-primary sm:text-6xl">
@@ -72,18 +81,10 @@ export default function HomePage() {
                   GitHub
                 </a>
               </div>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                {siteConfig.skills.map((skill) => (
-                  <span className="pill" key={skill}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
             </div>
 
             <div className="surface overflow-hidden">
-              <div className="grid gap-6 p-6 sm:p-8">
+              <div className="p-6 sm:p-8">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] border border-border bg-bg-soft">
                   <Image
                     alt="Portrait of Tri Nguyen"
@@ -94,34 +95,34 @@ export default function HomePage() {
                     src="/images/profile.jpg"
                   />
                 </div>
-
-                <div className="grid gap-4 text-sm">
-                  <div className="rounded-2xl border border-border bg-bg-soft p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                      Current focus
-                    </p>
-                    <p className="mt-2 text-base text-text-primary">
-                      Building AI and ML projects, shipping software, and always finding something new to learn.
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-border bg-bg-soft p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                      Building around
-                    </p>
-                    <p className="mt-2 text-base text-text-primary">
-                      AI, data science, computer vision, and pragmatic product design.
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-border bg-bg-soft p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                      Based in
-                    </p>
-                    <p className="mt-2 text-base text-text-primary">UT San Antonio</p>
-                  </div>
-                </div>
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
+            <div className="rounded-2xl border border-border bg-bg-soft p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                Current focus
+              </p>
+              <p className="mt-3 text-base text-text-primary leading-7">
+                Building AI and ML projects, shipping software, and always finding something new to learn.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-bg-soft p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                Building around
+              </p>
+              <p className="mt-3 text-base text-text-primary leading-7">
+                AI, data science, computer vision, and pragmatic product design.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-bg-soft p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                Based in
+              </p>
+              <p className="mt-3 text-base text-text-primary leading-7">UT San Antonio</p>
             </div>
           </div>
         </Container>
@@ -131,7 +132,6 @@ export default function HomePage() {
         <Container className="space-y-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <span className="eyebrow">Selected work</span>
               <h2 className="text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
                 Selected work
               </h2>

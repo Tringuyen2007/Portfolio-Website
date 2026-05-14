@@ -15,7 +15,7 @@ export function ProjectPreview({ project }: ProjectPreviewProps) {
     >
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
-          <span className="block text-base font-semibold tracking-tight text-text-primary group-hover:text-accent-strong transition-colors">
+          <span className="block text-xl font-semibold tracking-tight text-text-primary group-hover:text-accent-strong transition-colors">
             {project.title}
           </span>
           <span className="text-sm text-text-muted">{project.year}</span>
