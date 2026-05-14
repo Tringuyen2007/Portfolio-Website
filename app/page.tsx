@@ -51,9 +51,11 @@ export default function HomePage() {
                   Thoughtful software with an AI and data science core.
                 </h1>
                 <p className="max-w-2xl text-base leading-8 text-text-secondary sm:text-lg">
-                  I&apos;m {siteConfig.name}, a builder focused on calm interfaces,
-                  solid technical foundations, and projects that explain their
-                  thinking as clearly as they show their code.
+                  Hello, I&apos;m {siteConfig.name}, a builder focused on machine
+                  learning and AI-driven projects that combine intelligent systems
+                  with thoughtful user experiences. I&apos;m passionate about
+                  learning, building, and exploring how technology can solve
+                  real-world problems through practical and impactful solutions.
                 </p>
               </div>
 
