@@ -13,6 +13,8 @@ import {
 } from "@/lib/content/projects";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
+import { StackIconGrid } from "@/components/stack-icon-grid";
+
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -161,6 +163,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </dl>
             </aside>
           </div>
+
+          <StackIconGrid stack={project.stack} />
 
           <article className="surface p-6 sm:p-8 lg:p-10">
             <div data-prose>
