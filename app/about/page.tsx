@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { FileText } from "lucide-react";
 
 import { Container } from "@/components/container";
@@ -50,15 +51,13 @@ export default function AboutPage() {
                 <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
                   Tri Nguyen
                 </h1>
-                <a
+                <Link
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-soft hover:text-text-primary transition-colors"
-                  href="/Tri_technical_resume.pdf"
-                  rel="noreferrer"
-                  target="_blank"
+                  href="/resume"
                 >
                   <FileText className="size-4" />
                   Resume
-                </a>
+                </Link>
               </div>
             </div>
 

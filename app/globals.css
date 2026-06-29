@@ -72,6 +72,11 @@
   }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot-start, 0deg)); }
+  50%       { transform: translateY(-24px) rotate(var(--rot-end, 15deg)); }
+}
+
 @layer components {
   .eyebrow {
     @apply inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted;
