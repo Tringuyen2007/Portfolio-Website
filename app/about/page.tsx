@@ -52,8 +52,9 @@ export default function AboutPage() {
                 </h1>
                 <a
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-soft hover:text-text-primary transition-colors"
-                  download
                   href="/Tri_technical_resume.pdf"
+                  rel="noreferrer"
+                  target="_blank"
                 >
                   <FileText className="size-4" />
                   Resume
