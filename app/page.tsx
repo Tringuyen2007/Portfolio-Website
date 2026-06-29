@@ -35,17 +35,6 @@ export default function HomePage() {
         <Container className="space-y-8">
           <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-start">
             <div className="space-y-7">
-              <div className="space-y-3">
-                <span className="eyebrow">{siteConfig.role}</span>
-                <div className="flex flex-wrap gap-2">
-                  {siteConfig.skills.map((skill) => (
-                    <span className="pill" key={skill}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
               <div className="space-y-4">
                 <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-balance text-text-primary sm:text-6xl">
                   Thoughtful software with an AI and data science core.
@@ -98,33 +87,6 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
-            <div className="rounded-2xl border border-border bg-bg-soft p-6">
-              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                Current focus
-              </p>
-              <p className="mt-3 text-base text-text-primary leading-7">
-                Building AI and ML projects, shipping software, and always finding something new to learn.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-bg-soft p-6">
-              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                Building around
-              </p>
-              <p className="mt-3 text-base text-text-primary leading-7">
-                AI, data science, computer vision, and pragmatic product design.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-bg-soft p-6">
-              <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
-                Based in
-              </p>
-              <p className="mt-3 text-base text-text-primary leading-7">UT San Antonio</p>
             </div>
           </div>
         </Container>
