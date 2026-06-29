@@ -46,15 +46,8 @@ export default function AboutPage() {
             <div className="space-y-4">
               <span className="eyebrow">About</span>
               <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
-                Building range, depth, and a calmer way of presenting technical work.
+                Tri Nguyen
               </h1>
-              <p className="max-w-3xl text-base leading-8 text-text-secondary sm:text-lg">
-                I&apos;m {siteConfig.name}, a computer science student at{" "}
-                {siteConfig.school}. Right now I&apos;m especially drawn to projects
-                that combine technical substance with clear product thinking:
-                systems that solve a real problem, explain themselves well, and feel
-                polished enough that someone would actually want to use them.
-              </p>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2">
