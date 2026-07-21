@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, FolderGit2, Mail } from "lucide-react";
+import { ArrowUpRight, FolderGit2, Linkedin, Mail } from "lucide-react";
 
 import { Container } from "@/components/container";
 import { siteConfig } from "@/lib/site";
@@ -70,6 +70,26 @@ export default function ContactPage() {
             >
               <FolderGit2 className="size-4" />
               {siteConfig.githubHandle}
+              <ArrowUpRight className="size-4" />
+            </a>
+          </div>
+
+          <div className="surface p-6">
+            <div className="flex items-center gap-3 text-text-primary">
+              <Linkedin className="size-5" />
+              <h2 className="text-lg font-semibold">LinkedIn</h2>
+            </div>
+            <p className="mt-4 text-sm leading-7 text-text-secondary">
+              Connect with me on LinkedIn to keep in touch or learn more about my background.
+            </p>
+            <a
+              className="mt-5 inline-flex items-center gap-2 text-sm text-text-primary hover:text-accent-strong"
+              href={siteConfig.linkedinUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Linkedin className="size-4" />
+              Connect on LinkedIn
               <ArrowUpRight className="size-4" />
             </a>
           </div>

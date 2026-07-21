@@ -97,17 +97,6 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-
-            <div className="surface p-6">
-              <h2 className="text-lg font-semibold text-text-primary">Current toolkit</h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {siteConfig.skills.map((skill) => (
-                  <span className="pill" key={skill}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </Container>
       </section>

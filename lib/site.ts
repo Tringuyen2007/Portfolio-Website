@@ -8,6 +8,7 @@ export const siteConfig = {
   school: "University of Texas at San Antonio",
   githubUrl: "https://github.com/Tringuyen2007",
   githubHandle: "@Tringuyen2007",
+  linkedinUrl: "https://www.linkedin.com/in/tri-nguyen2/",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
   skills: [
     "Python",
