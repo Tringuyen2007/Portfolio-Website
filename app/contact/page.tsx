@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, FolderGit2, Link, Mail } from "lucide-react";
+import { ArrowUpRight, FolderGit2, Mail } from "lucide-react";
 
 import { Container } from "@/components/container";
+import { LinkedinIcon } from "@/components/icons/linkedin-icon";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -76,7 +77,7 @@ export default function ContactPage() {
 
           <div className="surface p-6">
             <div className="flex items-center gap-3 text-text-primary">
-              <Link className="size-5" />
+              <LinkedinIcon className="size-5" />
               <h2 className="text-lg font-semibold">LinkedIn</h2>
             </div>
             <p className="mt-4 text-sm leading-7 text-text-secondary">
@@ -88,7 +89,7 @@ export default function ContactPage() {
               rel="noreferrer"
               target="_blank"
             >
-              <Link className="size-4" />
+              <LinkedinIcon className="size-4" />
               Connect on LinkedIn
               <ArrowUpRight className="size-4" />
             </a>
