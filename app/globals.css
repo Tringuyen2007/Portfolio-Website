@@ -31,10 +31,6 @@
     @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     @apply min-h-screen bg-bg font-sans text-text-primary antialiased;
     background-image:
