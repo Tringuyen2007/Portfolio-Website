@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { FileText } from "lucide-react";
 import { Container } from "@/components/container";
 
 export const metadata: Metadata = {
@@ -12,9 +14,21 @@ export const metadata: Metadata = {
 
 const experience = [
   {
+    company: "Vorpex",
+    location: "San Antonio, TX",
+    title: "Software Developer",
+    start: "May 2026",
+    end: "Present",
+    bullets: [
+      "Built and deployed a high-performance marketing website for Vorpex using Next.js 14 App Router and Tailwind CSS",
+      "Integrated Cal.com booking, Resend transactional email, and Plausible Analytics into a static Next.js site, implementing custom API routes with rate limiting and honeypot spam protection",
+    ],
+    tech: ["Next.js", "Tailwind CSS", "Cal.com", "Resend", "Plausible Analytics"],
+  },
+  {
     company: "CooledTured LLC",
     location: "Bensenville, IL",
-    title: "Software Engineer",
+    title: "Software Engineer Intern",
     start: "April 2026",
     end: "Present",
     bullets: [
@@ -23,12 +37,25 @@ const experience = [
     ],
     tech: ["AWS", "Kubernetes", "Docker", "Next.js", "TypeScript", "Flask"],
   },
+  {
+    company: "Association Computing Machinery",
+    location: "San Antonio, TX",
+    title: "Secretary",
+    start: "October 2025",
+    end: "Present",
+    bullets: [
+      "Coordinated event logistics including room bookings, inventory management, and organizational planning for ACM events",
+      "Collaborated closely with the President and Vice President to ensure smooth operations and execution of ACM initiatives and events serving 2000+ student members",
+    ],
+    tech: [],
+  },
 ];
 
 const skillGroups = [
   { label: "Cloud", skills: ["AWS"] },
   { label: "Infrastructure", skills: ["Kubernetes", "Docker"] },
   { label: "Full-Stack", skills: ["Next.js", "TypeScript", "Flask"] },
+  { label: "Web Tools", skills: ["Tailwind CSS", "Cal.com", "Resend", "Plausible Analytics"] },
   { label: "Languages", skills: ["TypeScript"] },
 ];
 
@@ -39,9 +66,18 @@ export default function ExperiencePage() {
         {/* Page header */}
         <div className="space-y-4 mb-16">
           <span className="eyebrow">Experience</span>
-          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
-            Where I&apos;ve worked.
-          </h1>
+          <div className="flex flex-wrap items-center gap-4">
+            <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+              Where I&apos;ve worked.
+            </h1>
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-soft hover:text-text-primary transition-colors"
+              href="/resume"
+            >
+              <FileText className="size-4" />
+              Resume
+            </Link>
+          </div>
           <p className="text-base leading-8 text-text-secondary sm:text-lg">
             A record of the roles and projects that shaped how I build.
           </p>
@@ -52,7 +88,7 @@ export default function ExperiencePage() {
           {experience.map((job) => (
             <div key={job.company + job.start} className="relative">
               {/* Dot on the timeline line */}
-              <span className="absolute -left-[2.125rem] top-1.5 flex h-3 w-3 items-center justify-center">
+              <span className="absolute -left-8 top-1.5 -translate-x-1/2 flex h-3 w-3 items-center justify-center">
                 <span className="h-2.5 w-2.5 rounded-full bg-accent block" />
               </span>
 
@@ -77,7 +113,7 @@ export default function ExperiencePage() {
                 {job.bullets.map((bullet) => (
                   <li
                     key={bullet}
-                    className="text-sm leading-7 text-text-secondary pl-4 border-l border-border"
+                    className="relative text-sm leading-7 text-text-secondary pl-4 before:absolute before:left-0 before:top-[0.7em] before:h-1 before:w-1 before:rounded-full before:bg-text-muted"
                   >
                     {bullet}
                   </li>
@@ -85,13 +121,15 @@ export default function ExperiencePage() {
               </ul>
 
               {/* Tech pills */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {job.tech.map((tag) => (
-                  <span className="pill" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              {job.tech.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {job.tech.map((tag) => (
+                    <span className="pill" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

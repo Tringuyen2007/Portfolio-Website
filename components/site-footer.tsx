@@ -19,9 +19,6 @@ export function SiteFooter() {
           <Link className="hover:text-text-primary" href="/projects">
             Work
           </Link>
-          <Link className="hover:text-text-primary" href="/about">
-            About
-          </Link>
           <a
             className="inline-flex items-center gap-2 hover:text-text-primary"
             href={siteConfig.githubUrl}

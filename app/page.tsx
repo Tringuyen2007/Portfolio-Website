@@ -56,12 +56,6 @@ export default function HomePage() {
                   View work
                   <ArrowRight className="size-4" />
                 </Link>
-                <Link
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-5 py-3 text-sm font-medium text-text-primary hover:bg-bg-soft"
-                  href="/about"
-                >
-                  About me
-                </Link>
                 <a
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-text-secondary hover:text-text-primary"
                   href={siteConfig.githubUrl}
