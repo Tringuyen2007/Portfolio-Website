@@ -1,0 +1,39 @@
+---
+slug: "leanify"
+title: "Leanify"
+summary: "An offline-first calorie and macro tracking PWA built around carb cycling — assigning low/moderate/high-carb day types instead of a single flat daily target."
+year: 2026
+stack:
+  - "Next.js"
+  - "TypeScript"
+  - "Drizzle ORM"
+  - "PostgreSQL"
+  - "PWA"
+featured: true
+archived: false
+repo: "https://github.com/Tringuyen2007/Leanify"
+liveUrl: "https://leanify-liard.vercel.app"
+---
+
+## Overview
+
+Leanify is a calorie and macro tracker in the spirit of MyFitnessPal, with one deliberate difference: carb cycling is a first-class scheduling primitive instead of an afterthought. Rather than a single flat daily target, each day of the week gets a type — low, moderate, or high carb — and the app derives calorie and macro targets per day type from the user's stats and goal, while keeping the weekly average on target.
+
+It's built mobile-first and ships as an installable, offline-capable PWA, because the actual use case — logging a meal standing in a kitchen or a dining hall — has no guaranteed signal.
+
+## What I built
+
+- **The math engine** — a deterministic pipeline from body stats to BMR to TDEE to a weekly calorie budget, distributed across user-defined day types with a hard floor on fat grams so an aggressive carb percentage can't drive fat toward zero.
+- **Offline-first logging** — food entries are written to IndexedDB first and synced to Postgres (via Drizzle ORM and Neon) when connectivity returns, using Serwist for the service worker layer, so a logged meal is never lost to a dead signal.
+- **Auth and data isolation** — NextAuth-backed accounts with per-user scoping designed in from the first schema, not retrofitted later.
+- **Historical integrity** — day plans are materialized rows and log entries snapshot their macros at write time, so editing a goal in March never silently rewrites what happened in January.
+
+## What made it interesting
+
+Most of the interesting decisions were about what *not* to let drift. Local dates instead of UTC timestamps, because "what day is it" is the central question a tracker answers and timezones break that at midnight. Snapshotted macros instead of live joins, because a corrected food-database entry shouldn't retroactively rewrite history. Offline writes that reconcile later, because a tracker that fails to record a meal loses that day's data permanently.
+
+None of these are hard problems individually, but they compound — getting the data model conservative enough to be trustworthy took more care than the macro math itself.
+
+## Takeaway
+
+Leanify was a good exercise in designing for a use case I actually have, at the resolution actual daily use demands: offline by default, mobile by default, and historically honest by default.
