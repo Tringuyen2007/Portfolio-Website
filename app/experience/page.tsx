@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { Container } from "@/components/container";
+import { ScrollReveal } from "@/components/scroll-reveal";
 
 export const metadata: Metadata = {
   title: "Experience",
@@ -67,7 +68,7 @@ export default function ExperiencePage() {
         <div className="space-y-4 mb-16">
           <span className="eyebrow">Experience</span>
           <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+            <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
               Where I&apos;ve worked.
             </h1>
             <Link
@@ -85,8 +86,9 @@ export default function ExperiencePage() {
 
         {/* Timeline */}
         <div className="relative border-l border-border pl-8 space-y-12">
-          {experience.map((job) => (
-            <div key={job.company + job.start} className="relative">
+          {experience.map((job, index) => (
+            <ScrollReveal key={job.company + job.start} delay={index * 0.08}>
+            <div className="relative">
               {/* Dot on the timeline line */}
               <span className="absolute -left-8 top-1.5 -translate-x-1/2 flex h-3 w-3 items-center justify-center">
                 <span className="h-2.5 w-2.5 rounded-full bg-accent block" />
@@ -131,10 +133,12 @@ export default function ExperiencePage() {
                 </div>
               )}
             </div>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Skills section */}
+        <ScrollReveal>
         <div className="mt-20 pt-12 border-t border-border space-y-8">
           <span className="eyebrow">Tech &amp; Tools</span>
           <div className="space-y-6">
@@ -154,6 +158,7 @@ export default function ExperiencePage() {
             ))}
           </div>
         </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
