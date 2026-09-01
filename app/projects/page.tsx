@@ -18,11 +18,11 @@ export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <section className="py-18 sm:py-24">
-      <Container className="space-y-10">
+    <section className="py-10 sm:py-14">
+      <Container className="space-y-6">
         <div className="space-y-4 text-center">
           <span className="eyebrow">Projects</span>
-          <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+          <h1 className="font-heading text-3xl font-semibold tracking-[-0.045em] text-text-primary sm:text-4xl">
             Projects I&apos;ve worked and collaborated on.
           </h1>
         </div>
