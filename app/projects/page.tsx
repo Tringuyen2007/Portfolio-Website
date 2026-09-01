@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/container";
-import { ProjectCard } from "@/components/project-card";
+import { ProjectsShowcase } from "@/components/project-carousel";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { getAllProjects } from "@/lib/content/projects";
 
 export const metadata: Metadata = {
@@ -19,23 +20,16 @@ export default function ProjectsPage() {
   return (
     <section className="py-18 sm:py-24">
       <Container className="space-y-10">
-        <div className="space-y-4">
+        <div className="space-y-4 text-center">
           <span className="eyebrow">Projects</span>
-          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+          <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
             Projects I&apos;ve worked and collaborated on.
           </h1>
-          <p className="max-w-3xl text-base leading-8 text-text-secondary sm:text-lg">
-            I care about the narrative as much as the build itself. Each project page
-            is meant to show what was made, why it mattered, and where the interesting
-            technical decisions lived.
-          </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+        <ScrollReveal>
+          <ProjectsShowcase projects={projects} />
+        </ScrollReveal>
       </Container>
     </section>
   );

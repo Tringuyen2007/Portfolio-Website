@@ -5,6 +5,7 @@ import { ArrowRight, FolderGit2 } from "lucide-react";
 import { Container } from "@/components/container";
 import { JsonLd } from "@/components/json-ld";
 import { ProjectPreview } from "@/components/project-preview";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { getAllProjects } from "@/lib/content/projects";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
@@ -36,7 +37,7 @@ export default function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-start">
             <div className="space-y-7">
               <div className="space-y-4">
-                <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-balance text-text-primary sm:text-6xl">
+                <h1 className="max-w-4xl font-heading text-4xl font-semibold tracking-[-0.045em] text-balance text-text-primary sm:text-6xl">
                   Thoughtful software with an AI and data science core.
                 </h1>
                 <p className="max-w-2xl text-base leading-8 text-text-secondary sm:text-lg">
@@ -90,9 +91,13 @@ export default function HomePage() {
         <Container className="space-y-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <h2 className="text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
-                Selected work
+              <span className="eyebrow">Featured</span>
+              <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
+                Projects
               </h2>
+              <p className="max-w-xl text-base leading-7 text-text-secondary">
+                A couple of builds where the AI and data science work went deepest.
+              </p>
             </div>
 
             <Link
@@ -105,8 +110,10 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-col gap-3">
-            {selectedProjects.map((project) => (
-              <ProjectPreview key={project.slug} project={project} />
+            {selectedProjects.map((project, index) => (
+              <ScrollReveal key={project.slug} delay={index * 0.06}>
+                <ProjectPreview project={project} />
+              </ScrollReveal>
             ))}
           </div>
         </Container>
