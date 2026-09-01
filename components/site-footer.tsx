@@ -6,7 +6,7 @@ import { buildTimestamp, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border/90 py-8">
+    <footer className="border-t border-border/90 py-8 shrink-0">
       <Container className="flex flex-col gap-4 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <p className="text-text-secondary">

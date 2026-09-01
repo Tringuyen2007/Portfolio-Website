@@ -67,6 +67,19 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  html.viewport-locked {
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  html.viewport-locked body {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
 }
 
 @keyframes float {

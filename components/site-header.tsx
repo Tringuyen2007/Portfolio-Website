@@ -21,7 +21,7 @@ export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/65">
+    <header className="sticky top-0 z-50 shrink-0 border-b border-border/80 bg-bg/80 backdrop-blur supports-[backdrop-filter]:bg-bg/65">
       <Container className="flex h-20 items-center justify-between">
         <Link
           className="inline-flex items-center gap-3 text-sm tracking-[0.18em] text-text-secondary uppercase hover:text-text-primary"
@@ -60,7 +60,7 @@ export function SiteHeader() {
 
       {isOpen ? (
         <div
-          className="border-t border-border bg-bg px-6 py-6 md:hidden"
+          className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-border bg-bg px-6 py-6 md:hidden"
           id="mobile-menu"
         >
           <nav className="mx-auto flex max-w-6xl flex-col gap-2">
