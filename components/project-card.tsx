@@ -12,7 +12,7 @@ type ProjectCardProps = {
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="surface group flex h-full flex-col overflow-hidden">
-      <div className="relative aspect-[16/10] shrink-0 overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.09),transparent_18rem),linear-gradient(180deg,#1f2329,#171a1f)]">
+      <div className="relative min-h-20 flex-1 overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.09),transparent_18rem),linear-gradient(180deg,#1f2329,#171a1f)]">
         {project.cover ? (
           <Image
             alt={project.title}
@@ -22,7 +22,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             src={project.cover}
           />
         ) : (
-          <div className="relative flex h-full flex-col p-6 transition duration-500 group-hover:scale-[1.02]">
+          <div className="relative flex h-full flex-col p-5 transition duration-500 group-hover:scale-[1.02]">
             <ProjectCoverArt
               className="absolute inset-0 h-full w-full"
               slug={project.slug}
@@ -34,7 +34,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col space-y-4 p-5">
+      <div className="flex shrink-0 flex-col space-y-3 p-4">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-4">
             <h3 className="text-lg font-semibold tracking-tight text-text-primary">
@@ -42,7 +42,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </h3>
             <span className="text-sm text-text-muted">{project.year}</span>
           </div>
-          <p className="line-clamp-2 text-sm leading-7 text-text-secondary">{project.summary}</p>
+          <p className="line-clamp-2 text-sm leading-6 text-text-secondary">{project.summary}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">

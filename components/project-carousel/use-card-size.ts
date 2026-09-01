@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 const MIN_CARD_HEIGHT = 280;
 const MAX_CARD_HEIGHT = 420;
-const VIEWPORT_HEIGHT_RATIO = 0.34;
+const VIEWPORT_HEIGHT_RATIO = 0.42;
 const CARD_ASPECT_RATIO = 0.78; // width / height
 
 // SSR-safe default so the server-rendered markup matches the client's
 // first render before the effect below can measure window.innerHeight.
-const DEFAULT_CARD_HEIGHT = 380;
+const DEFAULT_CARD_HEIGHT = 378;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -42,5 +42,5 @@ export function useCardSize() {
     };
   }, []);
 
-  return { cardWidth: cardHeight * CARD_ASPECT_RATIO, cardHeight };
+  return { cardWidth: Math.round(cardHeight * CARD_ASPECT_RATIO), cardHeight: Math.round(cardHeight) };
 }
