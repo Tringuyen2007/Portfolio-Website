@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
 import { IntroOverlay } from "@/components/intro-overlay";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StarField } from "@/components/star-field";
 import { getBaseUrl, siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -18,6 +19,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist-mono",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 export const metadata: Metadata = {
@@ -55,8 +63,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`${geistSans.variable} ${geistMono.variable}`} lang="en">
+    <html
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
+      lang="en"
+    >
       <body className="flex min-h-screen flex-col">
+        <StarField />
         <IntroOverlay />
         <SiteHeader />
         <main className="flex-1">{children}</main>
