@@ -29,7 +29,7 @@ export default function ProjectsPage() {
           </h1>
         </div>
 
-        <div className="min-h-0 flex-1 pt-20">
+        <div className="min-h-0 flex-1 pt-12">
           <ScrollReveal className="block h-full">
             <ProjectsShowcase projects={projects} />
           </ScrollReveal>
