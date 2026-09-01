@@ -11,10 +11,9 @@ import {
 } from "framer-motion";
 
 import { ProjectCard } from "@/components/project-card";
+import { useCardSize } from "@/components/project-carousel/use-card-size";
 import type { Project } from "@/lib/content/projects";
 
-const CARD_WIDTH = 340;
-const CARD_HEIGHT = 560;
 const PERSPECTIVE = 1400;
 
 const IDLE_SPEED = 6; // degrees per second
@@ -29,11 +28,15 @@ function CarouselItem({
   itemAngle,
   radius,
   angle,
+  cardWidth,
+  cardHeight,
 }: {
   project: Project;
   itemAngle: number;
   radius: number;
   angle: import("framer-motion").MotionValue<number>;
+  cardWidth: number;
+  cardHeight: number;
 }) {
   const itemRef = useRef<HTMLDivElement>(null);
 
@@ -80,8 +83,8 @@ function CarouselItem({
         position: "absolute",
         top: "50%",
         left: "50%",
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
+        width: cardWidth,
+        height: cardHeight,
         transform,
         opacity,
       }}
@@ -94,22 +97,23 @@ function CarouselItem({
 export function CarouselRing({ projects }: { projects: Project[] }) {
   const prefersReducedMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { cardWidth, cardHeight } = useCardSize();
 
   const angle = useMotionValue(0);
   const extraSpeed = useMotionValue(0);
 
   const n = projects.length;
-  const radius = n > 1 ? (CARD_WIDTH / 2 / Math.tan(Math.PI / n)) * 1.5 : 0;
+  const radius = n > 1 ? (cardWidth / 2 / Math.tan(Math.PI / n)) * 1.5 : 0;
 
   // A card at translateZ(radius) inside this perspective sits closer to the
-  // camera, so the CSS 3D projection renders it larger than CARD_HEIGHT by a
+  // camera, so the CSS 3D projection renders it larger than cardHeight by a
   // factor of PERSPECTIVE / (PERSPECTIVE - radius) — the same "pop toward
   // viewer" effect that makes the front card readable. The wrapper's box
-  // must be sized for that projected height (not the nominal CARD_HEIGHT),
+  // must be sized for that projected height (not the nominal cardHeight),
   // otherwise the magnified front card overflows into whatever sits above
   // or below this section.
   const projectedScale = PERSPECTIVE / (PERSPECTIVE - radius);
-  const wrapperHeight = Math.ceil(CARD_HEIGHT * projectedScale);
+  const wrapperHeight = Math.ceil(cardHeight * projectedScale);
 
   useAnimationFrame((_time, delta) => {
     if (prefersReducedMotion) return;
@@ -165,6 +169,8 @@ export function CarouselRing({ projects }: { projects: Project[] }) {
         {projects.map((project, index) => (
           <CarouselItem
             angle={angle}
+            cardHeight={cardHeight}
+            cardWidth={cardWidth}
             itemAngle={index * (360 / n)}
             key={project.slug}
             project={project}
