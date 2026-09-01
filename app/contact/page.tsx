@@ -21,7 +21,7 @@ export default function ContactPage() {
       <Container className="space-y-10">
         <div className="max-w-3xl space-y-4">
           <span className="eyebrow">Contact</span>
-          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+          <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
             Open to thoughtful conversations and ambitious builds.
           </h1>
           <p className="text-base leading-8 text-text-secondary sm:text-lg">

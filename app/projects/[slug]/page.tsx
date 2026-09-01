@@ -100,7 +100,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="space-y-6">
               <span className="eyebrow">{project.year}</span>
               <div className="space-y-4">
-                <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
+                <h1 className="max-w-4xl font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
                   {project.title}
                 </h1>
                 <p className="max-w-3xl text-base leading-8 text-text-secondary sm:text-lg">
