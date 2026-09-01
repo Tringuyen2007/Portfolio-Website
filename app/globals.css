@@ -24,6 +24,7 @@
   --color-accent-strong: var(--accent-strong);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-fraunces);
 }
 
 @layer base {
@@ -73,7 +74,16 @@
   50%       { transform: translateY(-24px) rotate(var(--rot-end, 15deg)); }
 }
 
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.6; }
+}
+
 @layer components {
+  .animate-twinkle {
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
   .eyebrow {
     @apply inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted;
   }
@@ -95,11 +105,11 @@
   }
 
   [data-prose] h2 {
-    @apply mt-12 text-2xl font-semibold tracking-tight text-text-primary;
+    @apply mt-12 text-2xl font-heading font-semibold tracking-tight text-text-primary;
   }
 
   [data-prose] h3 {
-    @apply mt-10 text-xl font-semibold tracking-tight text-text-primary;
+    @apply mt-10 text-xl font-heading font-semibold tracking-tight text-text-primary;
   }
 
   [data-prose] p,
