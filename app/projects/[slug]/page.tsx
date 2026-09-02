@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MDXContent } from "@content-collections/mdx/react";
-import { ArrowLeft, ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, FolderGit2, Newspaper } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/container";
@@ -138,6 +138,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   >
                     Live site
                     <ArrowUpRight className="size-4" />
+                  </a>
+                ) : null}
+
+                {project.articleUrl ? (
+                  <a
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-5 py-3 text-sm font-medium text-text-primary hover:bg-bg-soft"
+                    href={project.articleUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Newspaper className="size-4" />
+                    Article
                   </a>
                 ) : null}
               </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowUpRight, FolderGit2, Star } from "lucide-react";
 
 import type { Project } from "@/lib/content/projects";
 import { ProjectCoverArt } from "@/components/project-art";
@@ -16,8 +16,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const hiddenStackCount = project.stack.length - visibleStack.length;
 
   return (
-    <article className="surface group flex h-full flex-col overflow-hidden">
+    <article
+      className={`surface group flex h-full flex-col overflow-hidden ${
+        project.highlight ? "border-accent/50 shadow-[0_0_0_1px_rgba(199,203,209,0.15),0_0_32px_-8px_rgba(199,203,209,0.35)]" : ""
+      }`}
+    >
       <div className="relative min-h-20 flex-1 overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.09),transparent_18rem),linear-gradient(180deg,#1f2329,#171a1f)]">
+        {project.highlight ? (
+          <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-bg/80 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-accent-strong backdrop-blur">
+            <Star className="size-3 fill-current" />
+            {project.highlight}
+          </span>
+        ) : null}
         {project.cover ? (
           <Image
             alt={project.title}

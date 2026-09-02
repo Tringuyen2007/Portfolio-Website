@@ -16,6 +16,8 @@ const projects = defineCollection({
     archived: z.boolean().default(false),
     repo: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
+    articleUrl: z.string().url().optional(),
+    highlight: z.string().optional(),
     cover: z.string().optional(),
     content: z.string(),
   }),
