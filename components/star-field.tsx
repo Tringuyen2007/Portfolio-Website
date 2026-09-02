@@ -7,8 +7,11 @@ type Star = {
   top: number;
   size: number;
   opacity: number;
+  color: string;
   twinkle: boolean;
+  duration: number;
   delay: number;
+  glow: boolean;
 };
 
 // Deterministic seeded PRNG (mulberry32) so server and client render
@@ -24,18 +27,32 @@ function mulberry32(seed: number) {
   };
 }
 
+// Mostly cool white with a faint sprinkle of blue/amber, echoing real
+// star color temperature without leaning into saturated color.
+const STAR_COLORS = ["230, 231, 233", "196, 214, 255", "255, 224, 189"];
+
 function generateStars(count: number): Star[] {
   const random = mulberry32(42);
   const stars: Star[] = [];
 
   for (let index = 0; index < count; index += 1) {
+    // Cubing the roll biases sizes toward the small end, so only a handful
+    // of stars land large enough to earn a glow.
+    const size = 0.6 + Math.pow(random(), 3) * 2.4;
+    const colorRoll = random();
+    const color =
+      colorRoll < 0.82 ? STAR_COLORS[0] : colorRoll < 0.93 ? STAR_COLORS[1] : STAR_COLORS[2];
+
     stars.push({
       left: random() * 100,
       top: random() * 100,
-      size: 1 + random(), // 1-2px
-      opacity: 0.15 + random() * 0.35, // 0.15-0.5
-      twinkle: index % 6 === 0,
-      delay: (index * 0.7) % 5,
+      size,
+      opacity: 0.12 + random() * 0.4,
+      color,
+      twinkle: index % 5 === 0,
+      duration: 3 + random() * 3,
+      delay: (index * 0.7) % 6,
+      glow: size > 2.1,
     });
   }
 
@@ -43,7 +60,7 @@ function generateStars(count: number): Star[] {
 }
 
 export function StarField() {
-  const stars = useMemo(() => generateStars(55), []);
+  const stars = useMemo(() => generateStars(70), []);
 
   return (
     <div
@@ -61,8 +78,12 @@ export function StarField() {
             width: `${star.size}px`,
             height: `${star.size}px`,
             borderRadius: "9999px",
-            background: "var(--text-primary)",
+            background: `rgb(${star.color})`,
             opacity: star.opacity,
+            boxShadow: star.glow
+              ? `0 0 ${(star.size * 2).toFixed(1)}px rgba(${star.color}, ${(star.opacity * 0.55).toFixed(2)})`
+              : undefined,
+            animationDuration: star.twinkle ? `${star.duration}s` : undefined,
             animationDelay: star.twinkle ? `${star.delay}s` : undefined,
           }}
         />

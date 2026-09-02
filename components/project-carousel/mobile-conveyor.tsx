@@ -163,7 +163,7 @@ export function MobileConveyor({ projects }: { projects: Project[] }) {
   const trackProjects = [...projects, ...projects];
 
   return (
-    <div className="h-full min-h-0 touch-pan-y overflow-clip" ref={containerRef}>
+    <div className="h-[360px] touch-pan-y overflow-clip" ref={containerRef}>
       <motion.div
         className="flex h-full items-stretch gap-6"
         ref={trackRef}
@@ -172,7 +172,7 @@ export function MobileConveyor({ projects }: { projects: Project[] }) {
         {trackProjects.map((project, index) => (
           <div
             aria-hidden={index >= projects.length ? true : undefined}
-            className="aspect-[0.78] h-full min-h-[320px] max-h-[560px] shrink-0"
+            className="aspect-[0.78] h-full shrink-0"
             inert={index >= projects.length}
             key={`${project.slug}-${index < projects.length ? "a" : "b"}`}
           >

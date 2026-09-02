@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useAnimationFrame,
@@ -11,40 +11,21 @@ import {
 } from "framer-motion";
 
 import { ProjectCard } from "@/components/project-card";
-import { useElementSize } from "@/components/project-carousel/use-element-size";
 import type { Project } from "@/lib/content/projects";
 
 const PERSPECTIVE = 1400;
 const CARD_ASPECT_RATIO = 0.78; // width / height
-const MIN_CARD_HEIGHT = 320;
-const MAX_CARD_HEIGHT = 560;
-const SIZE_SOLVE_ITERATIONS = 4;
+// Cards render at a fixed size regardless of viewport height — the page
+// scrolls vertically instead of squeezing cards down to fit.
+const CARD_HEIGHT = 390;
 
 const IDLE_SPEED = 6; // degrees per second
 const MAX_EXTRA_SPEED = 5 * IDLE_SPEED;
+const DRAG_ROTATION_SENSITIVITY = 0.35; // degrees per pixel of pointer movement
+const DRAG_THRESHOLD_PX = 6;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
-}
-
-// A card at translateZ(radius) inside the ring's perspective sits closer to
-// the camera, so its rendered footprint is larger than its nominal height by
-// a factor of PERSPECTIVE / (PERSPECTIVE - radius) — see the wrapperHeight
-// comment in CarouselRing below. That factor itself depends on radius, which
-// depends on cardWidth, which depends on cardHeight — so solving for the
-// cardHeight whose PROJECTED footprint fits a given container height takes a
-// few fixed-point iterations rather than one division.
-function solveCardHeight(containerHeight: number, projectCount: number) {
-  let height = clamp(containerHeight, MIN_CARD_HEIGHT, MAX_CARD_HEIGHT);
-
-  for (let i = 0; i < SIZE_SOLVE_ITERATIONS; i++) {
-    const width = height * CARD_ASPECT_RATIO;
-    const radius = projectCount > 1 ? (width / 2 / Math.tan(Math.PI / projectCount)) * 1.5 : 0;
-    const projectedScale = PERSPECTIVE / (PERSPECTIVE - radius);
-    height = clamp(containerHeight / projectedScale, MIN_CARD_HEIGHT, MAX_CARD_HEIGHT);
-  }
-
-  return height;
 }
 
 function CarouselItem({
@@ -120,32 +101,36 @@ function CarouselItem({
 
 export function CarouselRing({ projects }: { projects: Project[] }) {
   const prefersReducedMotion = useReducedMotion();
-  const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { height: containerHeight } = useElementSize(containerRef);
 
   const angle = useMotionValue(0);
   const extraSpeed = useMotionValue(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const hasDraggedRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartAngleRef = useRef(0);
 
   const n = projects.length;
-  const cardHeight = solveCardHeight(containerHeight || MIN_CARD_HEIGHT, n);
+  const cardHeight = CARD_HEIGHT;
   const cardWidth = cardHeight * CARD_ASPECT_RATIO;
   const radius = n > 1 ? (cardWidth / 2 / Math.tan(Math.PI / n)) * 1.5 : 0;
 
   // A card at translateZ(radius) inside this perspective sits closer to the
   // camera, so the CSS 3D projection renders it larger than cardHeight by a
   // factor of PERSPECTIVE / (PERSPECTIVE - radius) — the same "pop toward
-  // viewer" effect that makes the front card readable. solveCardHeight()
-  // above already accounts for this so the projected footprint fits
-  // containerHeight; wrapperHeight here is just that same projected size,
-  // used to size the perspective box itself.
+  // viewer" effect that makes the front card readable. wrapperHeight is that
+  // same projected size, used to size the perspective box itself so nothing
+  // clips as the ring rotates.
   const projectedScale = PERSPECTIVE / (PERSPECTIVE - radius);
-  const wrapperHeight = containerHeight
-    ? Math.min(Math.ceil(cardHeight * projectedScale), containerHeight)
-    : Math.ceil(cardHeight * projectedScale);
+  const wrapperHeight = Math.ceil(cardHeight * projectedScale);
 
   useAnimationFrame((_time, delta) => {
     if (prefersReducedMotion) return;
+    // While the user is dragging, pointermove drives `angle` directly —
+    // the idle/extraSpeed animation must stand down or the two would fight
+    // over the same motion value.
+    if (isDraggingRef.current) return;
 
     // extraSpeed is signed so a user can scroll either direction to spin the
     // ring forward or backward; it always exponentially decays back toward 0,
@@ -169,46 +154,112 @@ export function CarouselRing({ projects }: { projects: Project[] }) {
       );
     }
 
+    // Deliberately not using setPointerCapture: Chromium retargets the
+    // gesture's trailing click event to the capturing element when pointer
+    // capture is active, which would swallow clicks on the "Full details" /
+    // "Repository" links inside the cards. Tracking the drag with
+    // window-level listeners instead avoids that.
+    function handlePointerDown(event: PointerEvent) {
+      if (event.button !== 0 && event.pointerType === "mouse") return;
+      isDraggingRef.current = true;
+      hasDraggedRef.current = false;
+      dragStartXRef.current = event.clientX;
+      dragStartAngleRef.current = angle.get();
+      extraSpeed.set(0);
+      setIsDragging(true);
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerup", handlePointerUp);
+      window.addEventListener("pointercancel", handlePointerCancel);
+    }
+
+    function handlePointerMove(event: PointerEvent) {
+      const delta = event.clientX - dragStartXRef.current;
+      if (Math.abs(delta) > DRAG_THRESHOLD_PX) {
+        hasDraggedRef.current = true;
+      }
+      // Dragging right (positive delta) rotates the ring the same direction
+      // a rightward wheel-scroll does, so both controls feel consistent.
+      angle.set(dragStartAngleRef.current + delta * DRAG_ROTATION_SENSITIVITY);
+    }
+
+    function endDrag() {
+      isDraggingRef.current = false;
+      setIsDragging(false);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerCancel);
+    }
+
+    // pointerup fires before the gesture's click event, so hasDraggedRef
+    // must survive into that click handler below — only pointercancel (which
+    // has no click following it) is safe to reset it immediately.
+    function handlePointerUp() {
+      endDrag();
+    }
+
+    function handlePointerCancel() {
+      hasDraggedRef.current = false;
+      endDrag();
+    }
+
+    function handleClickCapture(event: MouseEvent) {
+      if (hasDraggedRef.current) {
+        event.preventDefault();
+        event.stopPropagation();
+        hasDraggedRef.current = false;
+      }
+    }
+
     wrapper.addEventListener("wheel", handleWheel, { passive: false });
-    return () => wrapper.removeEventListener("wheel", handleWheel);
-  }, [prefersReducedMotion, extraSpeed]);
+    wrapper.addEventListener("pointerdown", handlePointerDown);
+    wrapper.addEventListener("click", handleClickCapture, { capture: true });
+    return () => {
+      wrapper.removeEventListener("wheel", handleWheel);
+      wrapper.removeEventListener("pointerdown", handlePointerDown);
+      wrapper.removeEventListener("click", handleClickCapture, { capture: true });
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerCancel);
+    };
+  }, [prefersReducedMotion, extraSpeed, angle]);
 
   return (
-    <div className="h-full min-h-0" ref={containerRef}>
-      <div
-        ref={wrapperRef}
+    <div
+      className={
+        prefersReducedMotion ? "" : isDragging ? "cursor-grabbing select-none" : "cursor-grab select-none"
+      }
+      ref={wrapperRef}
+      style={{
+        position: "relative",
+        height: wrapperHeight,
+        perspective: `${PERSPECTIVE}px`,
+        overflow: "visible",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <motion.div
         style={{
-          position: "relative",
-          height: wrapperHeight,
-          perspective: `${PERSPECTIVE}px`,
-          overflow: "visible",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transformStyle: "preserve-3d",
+          rotateY: angle,
         }}
       >
-        <motion.div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transformStyle: "preserve-3d",
-            rotateY: angle,
-          }}
-        >
-          {projects.map((project, index) => (
-            <CarouselItem
-              angle={angle}
-              cardHeight={cardHeight}
-              cardWidth={cardWidth}
-              itemAngle={index * (360 / n)}
-              key={project.slug}
-              project={project}
-              radius={radius}
-            />
-          ))}
-        </motion.div>
-      </div>
+        {projects.map((project, index) => (
+          <CarouselItem
+            angle={angle}
+            cardHeight={cardHeight}
+            cardWidth={cardWidth}
+            itemAngle={index * (360 / n)}
+            key={project.slug}
+            project={project}
+            radius={radius}
+          />
+        ))}
+      </motion.div>
     </div>
   );
 }

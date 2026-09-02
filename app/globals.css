@@ -35,6 +35,8 @@
   body {
     @apply min-h-screen bg-bg font-sans text-text-primary antialiased;
     background-image:
+      radial-gradient(ellipse 60% 40% at 20% -10%, rgba(150, 170, 220, 0.05), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 110%, rgba(220, 190, 160, 0.035), transparent 60%),
       radial-gradient(circle at top, rgba(231, 233, 237, 0.05), transparent 42rem),
       linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%);
   }
@@ -66,19 +68,6 @@
       scroll-behavior: auto !important;
       transition-duration: 0.01ms !important;
     }
-  }
-
-  html.viewport-locked {
-    height: 100dvh;
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-
-  html.viewport-locked body {
-    height: 100dvh;
-    min-height: 100dvh;
-    overflow: hidden;
-    overscroll-behavior: none;
   }
 }
 

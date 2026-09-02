@@ -19,7 +19,7 @@ const experience = [
     location: "San Antonio, TX",
     title: "Software Developer",
     start: "May 2026",
-    end: "Present",
+    end: "August 2026",
     bullets: [
       "Built and deployed a high-performance marketing website for Vorpex using Next.js 14 App Router and Tailwind CSS",
       "Integrated Cal.com booking, Resend transactional email, and Plausible Analytics into a static Next.js site, implementing custom API routes with rate limiting and honeypot spam protection",
@@ -31,7 +31,7 @@ const experience = [
     location: "Bensenville, IL",
     title: "Software Engineer Intern",
     start: "April 2026",
-    end: "Present",
+    end: "August 2026",
     bullets: [
       "Building authentication systems, cloud deployment infrastructure, and data management pipelines using AWS, Kubernetes, and Docker",
       "Developing full-stack features for player registration, tournament organization, match reporting, and store management systems",

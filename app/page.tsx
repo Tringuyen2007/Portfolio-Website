@@ -38,12 +38,12 @@ export default function HomePage() {
             <div className="space-y-7">
               <div className="space-y-4">
                 <h1 className="max-w-4xl font-heading text-4xl font-semibold tracking-[-0.045em] text-balance text-text-primary sm:text-6xl">
-                  Thoughtful software with an AI and data science core.
+                  Tri Nguyen | CS + AI/ML
                 </h1>
                 <p className="max-w-2xl text-base leading-8 text-text-secondary sm:text-lg">
-                  Hello, I&apos;m {siteConfig.name}, a builder focused on machine
-                  learning and AI-driven projects that combine intelligent systems
-                  with thoughtful user experiences. I&apos;m passionate about
+                  Hi, I&apos;m {siteConfig.name}, a guy who is focused on machine
+                  learning and AI-driven projects that combine  systems
+                  with a touch of user experiences. I&apos;m passionate about
                   learning, building, and exploring how technology can solve
                   real-world problems through practical and impactful solutions.
                 </p>
@@ -91,12 +91,12 @@ export default function HomePage() {
         <Container className="space-y-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <span className="eyebrow">Featured</span>
-              <h2 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-text-primary sm:text-4xl">
+              
+              <h2 className="font-heading text-4xl font-semibold tracking-[-0.04em] text-text-primary sm:text-5xl">
                 Projects
               </h2>
               <p className="max-w-xl text-base leading-7 text-text-secondary">
-                A couple of builds where the AI and data science work went deepest.
+                Silly fun things I've made.
               </p>
             </div>
 

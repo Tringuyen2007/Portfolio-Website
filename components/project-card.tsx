@@ -9,7 +9,12 @@ type ProjectCardProps = {
   project: Project;
 };
 
+const MAX_VISIBLE_STACK_ITEMS = 4;
+
 export function ProjectCard({ project }: ProjectCardProps) {
+  const visibleStack = project.stack.slice(0, MAX_VISIBLE_STACK_ITEMS);
+  const hiddenStackCount = project.stack.length - visibleStack.length;
+
   return (
     <article className="surface group flex h-full flex-col overflow-hidden">
       <div className="relative min-h-20 flex-1 overflow-hidden border-b border-border bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.09),transparent_18rem),linear-gradient(180deg,#1f2329,#171a1f)]">
@@ -46,11 +51,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {project.stack.map((item) => (
+          {visibleStack.map((item) => (
             <span className="pill text-xs" key={item}>
               {item}
             </span>
           ))}
+          {hiddenStackCount > 0 ? (
+            <span className="pill text-xs text-text-muted">+{hiddenStackCount}</span>
+          ) : null}
         </div>
 
         <div className="mt-auto flex flex-wrap items-center gap-4 text-sm">
@@ -69,7 +77,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               rel="noreferrer"
               target="_blank"
             >
-              <FolderGit2 className="size-4" />
+              <FolderGit2 className="size-2" />
               Repository
             </a>
           ) : null}
