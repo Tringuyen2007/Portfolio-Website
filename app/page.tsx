@@ -124,7 +124,7 @@ export default function HomePage() {
       <section className="border-t border-border py-20 sm:py-28">
         <Container className="space-y-10">
           <ScrollReveal>
-            <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="space-y-8">
               <SectionHeading eyebrow="The fruit tree" index="03" title="What grew from it.">
                 <p className="max-w-xl text-base leading-8 text-text-secondary">
                   Each fruit on this tree is a project, a hackathon, or an event. Golden apples are

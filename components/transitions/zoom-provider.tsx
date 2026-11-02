@@ -116,7 +116,9 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
 
   // A pathname change that we did not drive (e.g. header link) also clears.
   useEffect(() => {
-    if (!active) clear();
+    if (active) return;
+    const id = window.setTimeout(clear, 0);
+    return () => window.clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 

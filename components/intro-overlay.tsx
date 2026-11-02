@@ -16,8 +16,8 @@ export function IntroOverlay() {
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      setPhase("done");
-      return;
+      const id = setTimeout(() => setPhase("done"), 0);
+      return () => clearTimeout(id);
     }
 
     const exitTimer = setTimeout(() => setPhase("exiting"), HOLD_MS);

@@ -21,7 +21,7 @@ export function Hero() {
         };
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24">
+    <section className="relative overflow-hidden pt-10 pb-10 sm:pt-16 sm:pb-14">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
           <div className="space-y-8">
@@ -91,7 +91,7 @@ export function Hero() {
 
         <motion.a
           aria-label="Scroll to about section"
-          className="mt-16 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-text-muted hover:text-text-primary"
+          className="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-text-muted hover:text-text-primary"
           href="#about"
           {...reveal(0.8)}
         >

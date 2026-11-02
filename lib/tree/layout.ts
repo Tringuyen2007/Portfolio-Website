@@ -205,7 +205,7 @@ function buildTwigs(
     twigs.push({
       path: { p0: base, p1, p2, p3: end },
       width: 5 + random() * 2,
-      leaves: { center: end, size: frame.branchLength * (0.17 + random() * 0.06), seed: random() },
+      leaves: { center: end, size: frame.branchLength * (0.14 + random() * 0.05), seed: random() },
     });
   }
   return twigs;
@@ -254,10 +254,10 @@ export function buildTreeLayout(
     const twigs = buildTwigs(path, def.side, frame, random, twigCount);
     const end = path.p3;
     const leaves: LeafCluster[] = [
-      { center: end, size: frame.branchLength * (young ? 0.2 : 0.27), seed: random() },
+      { center: end, size: frame.branchLength * (young ? 0.17 : 0.23), seed: random() },
       {
         center: cubicPoint(path, 0.78),
-        size: frame.branchLength * 0.2,
+        size: frame.branchLength * 0.17,
         seed: random(),
       },
     ];
@@ -337,56 +337,78 @@ export function buildTreeLayout(
   }
 
   // Keep fruits inside the frame with a margin.
+  // Round so server and client markup match bit-for-bit (Math.hypot can differ
+  // in the last ulp between engines, which would otherwise break hydration).
   const margin = frame.fruitRadius * 2;
+  const round = (n: number) => Math.round(n * 100) / 100;
   for (const fruit of fruits) {
     fruit.position = {
-      x: Math.min(frame.width - margin, Math.max(margin, fruit.position.x)),
-      y: Math.min(frame.height - margin, Math.max(margin, fruit.position.y)),
+      x: round(Math.min(frame.width - margin, Math.max(margin, fruit.position.x))),
+      y: round(Math.min(frame.height - margin, Math.max(margin, fruit.position.y))),
     };
+    fruit.anchor = { x: round(fruit.anchor.x), y: round(fruit.anchor.y) };
   }
 
   const canopyRandom = mulberry32(hash("canopy"));
   const canopy: LeafCluster[] = [
-    { center: { x: frame.trunkTop.x, y: frame.trunkTop.y - 30 }, size: frame.branchLength * 0.32, seed: canopyRandom() },
+    { center: { x: frame.trunkTop.x, y: frame.trunkTop.y - 30 }, size: frame.branchLength * 0.26, seed: canopyRandom() },
     {
-      center: { x: frame.trunkTop.x - 60, y: frame.trunkTop.y + 10 },
-      size: frame.branchLength * 0.24,
+      center: { x: frame.trunkTop.x - 70, y: frame.trunkTop.y + 20 },
+      size: frame.branchLength * 0.2,
       seed: canopyRandom(),
     },
     {
-      center: { x: frame.trunkTop.x + 60, y: frame.trunkTop.y + 5 },
-      size: frame.branchLength * 0.24,
+      center: { x: frame.trunkTop.x + 70, y: frame.trunkTop.y + 15 },
+      size: frame.branchLength * 0.2,
       seed: canopyRandom(),
     },
   ];
 
-  return {
+  return roundDeep({
     frame,
     trunk,
     trunkWidth: frame.branchLength * 0.11,
     branches: branchLayouts,
     fruits,
     canopy,
-  };
+  });
+}
+
+/**
+ * Round every number in the layout to 2 decimals. Server and client must
+ * produce byte-identical SVG attributes or React reports a hydration mismatch;
+ * trig results can differ in the last ulp between V8 builds.
+ */
+function roundDeep<T>(value: T): T {
+  if (typeof value === "number") return (Math.round(value * 100) / 100) as T;
+  if (Array.isArray(value)) return value.map(roundDeep) as T;
+  if (value && typeof value === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [key, item] of Object.entries(value as Record<string, unknown>)) {
+      out[key] = roundDeep(item);
+    }
+    return out as T;
+  }
+  return value;
 }
 
 /** Points for a leaf cluster: a deterministic rosette of ellipses. */
-export function leafRosette(cluster: LeafCluster, count = 7) {
+export function leafRosette(cluster: LeafCluster, count = 11) {
   const random = mulberry32(Math.floor(cluster.seed * 1e9));
   const leaves: { x: number; y: number; rx: number; ry: number; rotate: number; tone: number }[] = [];
   for (let i = 0; i < count; i += 1) {
     const angle = (i / count) * Math.PI * 2 + random() * 0.6;
-    const r = cluster.size * (0.15 + random() * 0.45);
+    const r = cluster.size * (0.1 + random() * 0.55);
     leaves.push({
       x: cluster.center.x + Math.cos(angle) * r,
-      y: cluster.center.y + Math.sin(angle) * r * 0.75,
-      rx: cluster.size * (0.32 + random() * 0.18),
-      ry: cluster.size * (0.2 + random() * 0.12),
+      y: cluster.center.y + Math.sin(angle) * r * 0.8,
+      rx: cluster.size * (0.24 + random() * 0.14),
+      ry: cluster.size * (0.11 + random() * 0.07),
       rotate: (angle * 180) / Math.PI + (random() - 0.5) * 40,
       tone: random(),
     });
   }
-  return leaves;
+  return roundDeep(leaves);
 }
 
 /** Apple silhouette centered at the origin, scaled by radius. Shared by fruits and the legend. */

@@ -213,7 +213,8 @@ export function TreeStage({ projects }: { projects: TreeProject[] }) {
       const saved = JSON.parse(raw) as { slug?: string; scrollY?: number };
       if (typeof saved.scrollY === "number") window.scrollTo({ top: saved.scrollY, behavior: "instant" });
       if (saved.slug) {
-        setReturnedSlug(saved.slug);
+        const slug = saved.slug;
+        window.setTimeout(() => setReturnedSlug(slug), 0);
         window.setTimeout(() => setReturnedSlug(null), 1600);
       }
     } catch {

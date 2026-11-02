@@ -68,6 +68,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
       lang="en"
     >
+      {process.env.NEXT_PUBLIC_FIGMA_CAPTURE === "1" ? (
+        // Dev-only: lets Figma's html-to-design capture pull pages from localhost.
+        // eslint-disable-next-line @next/next/no-sync-scripts
+        <script async src="https://mcp.figma.com/mcp/html-to-design/capture.js" />
+      ) : null}
       <body className="flex min-h-screen flex-col">
         <GroundGlow />
         <IntroOverlay />

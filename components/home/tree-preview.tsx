@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useMemo, useRef } from "react";
 
@@ -14,11 +15,11 @@ import type { TreeProject } from "@/lib/tree/types";
  */
 export function TreePreview({ projects }: { projects: TreeProject[] }) {
   const { zoomTo } = useZoom();
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLAnchorElement | null>(null);
   const layout = useMemo(() => buildTreeLayout(projects, DESKTOP_FRAME), [projects]);
 
   return (
-    <a
+    <Link
       aria-label="Explore the tree of projects and events"
       className="surface group relative block overflow-hidden focus-visible:outline-accent"
       href="/projects"
@@ -49,6 +50,6 @@ export function TreePreview({ projects }: { projects: TreeProject[] }) {
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
         </span>
       </span>
-    </a>
+    </Link>
   );
 }

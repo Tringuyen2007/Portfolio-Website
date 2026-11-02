@@ -1,13 +1,13 @@
 "use client";
 
 import { ArrowRight, Award } from "lucide-react";
-import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useMemo, useRef, type CSSProperties } from "react";
 
 import { ProjectCoverArt } from "@/components/project-art";
 import type { TreeProject } from "@/lib/tree/types";
 
-export const PREVIEW_W = 220;
-export const PREVIEW_H = 200;
+export const PREVIEW_W = 250;
+export const PREVIEW_H = 236;
 const GAP = 18;
 const PAD = 12;
 
@@ -76,13 +76,9 @@ export function FruitPreview({
   onPointerLeave,
   onExplore,
 }: FruitPreviewProps) {
-  const [placement, setPlacement] = useState<PreviewPlacement>(() => placePreview(anchor));
+  const placement = useMemo(() => placePreview(anchor), [anchor]);
   const ref = useRef<HTMLDivElement>(null);
   const golden = project.fruit === "golden";
-
-  useLayoutEffect(() => {
-    setPlacement(placePreview(anchor));
-  }, [anchor]);
 
   const style: CSSProperties = {
     left: placement.left,
@@ -110,7 +106,8 @@ export function FruitPreview({
       <svg
         aria-hidden="true"
         className="absolute inset-0 h-full w-full drop-shadow-[0_18px_30px_rgba(0,0,0,0.45)]"
-        viewBox={`0 0 ${PREVIEW_W} ${PREVIEW_H + 22}`}
+        preserveAspectRatio="none"
+        viewBox="0 0 220 222"
       >
         <defs>
           <linearGradient id="preview-fill" x1="0" x2="0" y1="0" y2="1">
@@ -124,7 +121,7 @@ export function FruitPreview({
         </defs>
         <g transform="translate(0 22)">
           <path
-            d="M110 18 C 140 -14, 212 2, 216 60 C 220 124, 176 196, 110 198 C 44 196, 0 124, 4 60 C 8 2, 80 -14, 110 18 Z"
+            d="M110 12 C 134 -6, 196 -4, 212 46 C 226 92, 206 160, 160 190 C 140 203, 120 200, 110 194 C 100 200, 80 203, 60 190 C 14 160, -6 92, 8 46 C 24 -4, 86 -6, 110 12 Z"
             fill="url(#preview-fill)"
             stroke={golden ? "url(#preview-gold-stroke)" : "var(--border)"}
             strokeWidth={golden ? 1.6 : 1}
@@ -141,11 +138,11 @@ export function FruitPreview({
         />
       </svg>
 
-      <div className="relative flex h-full flex-col items-center px-7 pb-6 pt-10 text-center">
-        <p className="font-heading text-[19px] font-semibold leading-tight tracking-[-0.02em] text-text-primary">
+      <div className="relative flex h-full flex-col items-center px-9 pb-8 pt-11 text-center">
+        <p className="font-heading text-[20px] font-semibold leading-tight tracking-[-0.02em] text-text-primary">
           {project.title}
         </p>
-        <div className="mt-1.5 h-14 w-full overflow-hidden rounded-xl border border-border/70 bg-bg-soft/70">
+        <div className="mt-2 h-16 w-full overflow-hidden rounded-xl border border-border/70 bg-bg-soft/70">
           <ProjectCoverArt className="h-full w-full" slug={project.slug} />
         </div>
         {project.award ? (
@@ -158,7 +155,7 @@ export function FruitPreview({
             {project.event ?? project.year}
           </p>
         )}
-        <p className="mt-1 line-clamp-2 text-[11px] leading-[1.35] text-text-secondary">
+        <p className="mt-1 line-clamp-2 px-2 text-[11px] leading-[1.35] text-text-secondary">
           {project.summary}
         </p>
         {mode === "touch" ? (

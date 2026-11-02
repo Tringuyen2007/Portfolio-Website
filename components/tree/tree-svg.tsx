@@ -133,12 +133,11 @@ export function TreeSvg({
       <path
         d={cubicToSvg(layout.trunk)}
         fill="none"
-        opacity={0.35}
+        opacity={0.28}
         stroke="#2a1d15"
-        strokeDasharray="6 18"
         strokeLinecap="round"
-        strokeWidth={layout.trunkWidth * 0.22}
-        transform="translate(6 0)"
+        strokeWidth={layout.trunkWidth * 0.16}
+        transform={`translate(${(layout.trunkWidth * 0.28).toFixed(1)} 0)`}
       />
       {/* root flare */}
       <path
@@ -201,19 +200,6 @@ export function TreeSvg({
               />
             ))}
 
-            {showLabels ? (
-              <text
-                className="font-mono"
-                fill={branch.young ? "var(--text-muted)" : "var(--text-secondary)"}
-                fontSize={frame.width > 900 ? 13 : 15}
-                letterSpacing="0.18em"
-                textAnchor={branch.side === "left" ? "end" : "start"}
-                x={branch.labelPosition.x}
-                y={branch.labelPosition.y}
-              >
-                {branch.shortLabel.toUpperCase()}
-              </text>
-            ) : null}
           </g>
         );
       })}
@@ -222,6 +208,42 @@ export function TreeSvg({
       {layout.canopy.map((cluster, index) => (
         <Leaves cluster={cluster} delay={-index * 1.9} key={`crown${index}`} />
       ))}
+
+      {/* branch labels sit above every leaf so they always read */}
+      {showLabels
+        ? layout.branches.map((branch) => {
+            const dim = highlightedBranch && highlightedBranch !== branch.id;
+            const label = branch.shortLabel.toUpperCase();
+            const fontSize = frame.width > 900 ? 12 : 15;
+            const width = label.length * fontSize * 0.78 + 28;
+            const x = branch.side === "left" ? branch.labelPosition.x - width : branch.labelPosition.x;
+            return (
+              <g className={`transition-opacity duration-500 ${dim ? "opacity-35" : "opacity-100"}`} key={`label-${branch.id}`}>
+                <rect
+                  fill="var(--bg)"
+                  fillOpacity={0.82}
+                  height={fontSize + 16}
+                  rx={(fontSize + 16) / 2}
+                  stroke="var(--border)"
+                  width={width}
+                  x={x}
+                  y={branch.labelPosition.y - fontSize - 6}
+                />
+                <text
+                  className="font-mono"
+                  fill={branch.young ? "var(--text-muted)" : "var(--text-secondary)"}
+                  fontSize={fontSize}
+                  letterSpacing="0.16em"
+                  textAnchor="middle"
+                  x={x + width / 2}
+                  y={branch.labelPosition.y + 2}
+                >
+                  {label}
+                </text>
+              </g>
+            );
+          })
+        : null}
     </svg>
   );
 }
