@@ -1,0 +1,39 @@
+---
+slug: "larpcity"
+title: "LarpCity"
+summary: "A financial-life city sim that lets players live out decades of real-world money decisions — debt, credit, investing, taxes, and life events — on the way to retirement."
+year: 2026
+stack:
+  - "TypeScript"
+  - "PixiJS"
+  - "Gemini"
+  - "TigerData"
+  - "Vultr"
+featured: true
+archived: false
+repo: "https://github.com/cayden-h/LarpCity"
+liveUrl: "https://www.larpcity.club"
+articleUrl: "https://devpost.com/software/temp-6yaocn"
+highlight: "HackRice Track Winner"
+---
+
+## Overview
+
+LarpCity teaches people to make better financial decisions by letting them live out how those decisions play out. It won the **Capital One track at HackRice**.
+
+Every player starts at 22, just out of college, with a randomized salary, student debt, and a 600 credit score. From there, time advances day by day through a living isometric city. Paychecks land, bills arrive, the market crashes and recovers, cars break down — and the player decides how to respond, all the way to retirement.
+
+## What it does
+
+- **Seeded simulation engine** modeling debt, credit, investments, taxes, income, expenses, and major life events. Runs replay exactly, so the end-of-game review can rewind to any past decision and show what would have worked on the same market.
+- **Real-world financial data** — a real card catalog from CFPB plans and FRED rates stored in Tiger Data, and a year of real market data.
+- **AI coaching** with Gemini that analyzes decisions at goals, bankruptcies, and big portfolio swings, and explains long-term outcomes.
+- **A phone in the city** that acts as the hub: Stocks, Goals, Map, Calendar, News, Mail, Bank, and Taxes.
+
+## Stack
+
+TypeScript, Vite, and PixiJS for the game; an Express API server over Tiger Data (Postgres with TimescaleDB); Gemini for coaching and the in-game newspaper; deployed on Vultr.
+
+## Takeaway
+
+A deterministic, seeded engine was the best decision we made — it gave us exact rewinds, fast-forwards, and reproducible demos for free, and made the "what went wrong" review possible.
