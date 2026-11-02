@@ -2,6 +2,13 @@
 
 Date: 2026-11-02. Branch: `new-ui`. Supersedes the unapproved "Night City" spec of the same date.
 
+Visual references:
+- Figma: https://www.figma.com/design/jgsrovejIgPYeFI9yfjSPW (page "01 Direction — Dusk Orchard" holds the
+  design-direction board plus live captures of `/`, `/projects`, `/projects/radar`, `/experience`, `/contact`).
+- pen.dev concept mockup: `designs/tree/tree-portfolio.pen` (open in the pen.dev app); render at
+  `designs/tree/tree-portfolio.png`. The mockup's images and some facts are AI stand-ins; the site uses only verified content.
+- Re-capture pages into Figma: run `NEXT_PUBLIC_FIGMA_CAPTURE=1 npm run dev` and use the Figma MCP capture flow.
+
 ## 1. Audit of the existing site
 
 **Stack.** Next.js 16 (App Router), React 19, Tailwind 4 (`@theme inline` tokens in `app/globals.css`),
