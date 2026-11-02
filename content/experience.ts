@@ -22,6 +22,22 @@ export type ExperienceEntry = {
  */
 export const experience: ExperienceEntry[] = [
   {
+    id: "better-future-institute",
+    organization: "Better Future Institute",
+    role: "Software Engineer Intern",
+    kind: "professional",
+    start: "September 2026",
+    end: "Present",
+    location: "San Antonio, TX",
+    summary:
+      "Front-end redevelopment and back-end refactoring on the BUFFI system, plus the data pipelines and client-driven features around it.",
+    responsibilities: [
+      "Redeveloped the front-end and refactored back-end code for the BUFFI system in a fast-paced environment, improving code quality and maintainability for company-facing clients.",
+      "Built data pipelines to gather and process client data, and implemented new features based on client requirements to support evolving business needs.",
+    ],
+    technologies: [],
+  },
+  {
     id: "vorpex",
     organization: "Vorpex",
     role: "Software Developer",

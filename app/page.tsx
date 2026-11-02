@@ -63,28 +63,12 @@ export default function HomePage() {
 
       <Hero />
 
-      {/* Experience preview */}
-      <section className="scroll-mt-24 py-20 sm:py-28" id="experience">
-        <Container className="space-y-12">
-          <ScrollReveal>
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <SectionHeading eyebrow="Growth rings" index="01" title="Where the trunk thickened." />
-              <Link className="btn-secondary shrink-0" href="/experience">
-                Full experience
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-          </ScrollReveal>
-          <ExperienceTimeline compact entries={experience} />
-        </Container>
-      </section>
-
       {/* Tree preview */}
-      <section className="border-t border-border py-20 sm:py-28">
+      <section className="scroll-mt-24 py-20 sm:py-28" id="tree">
         <Container className="space-y-10">
           <ScrollReveal>
             <div className="space-y-8">
-              <SectionHeading eyebrow="The fruit tree" index="02" title="What grew from it.">
+              <SectionHeading eyebrow="The fruit tree" index="01" title="What grew from it.">
                 <p className="max-w-xl text-base leading-8 text-text-secondary">
                   Each fruit on this tree is a project, a hackathon, or an event. Golden apples are
                   the ones that came home with an award. The tree keeps growing as I do.
@@ -96,6 +80,22 @@ export default function HomePage() {
           <ScrollReveal>
             <TreePreview projects={projects} />
           </ScrollReveal>
+        </Container>
+      </section>
+
+      {/* Experience preview */}
+      <section className="scroll-mt-24 border-t border-border py-20 sm:py-28" id="experience">
+        <Container className="space-y-12">
+          <ScrollReveal>
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+              <SectionHeading eyebrow="Growth rings" index="02" title="Where the vine has climbed." />
+              <Link className="btn-secondary shrink-0" href="/experience">
+                Full experience
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </ScrollReveal>
+          <ExperienceTimeline compact entries={experience} />
         </Container>
       </section>
 

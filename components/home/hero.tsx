@@ -84,9 +84,9 @@ export function Hero() {
         </div>
 
         <motion.a
-          aria-label="Scroll to experience section"
+          aria-label="Scroll to the project tree"
           className="mt-10 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
-          href="#experience"
+          href="#tree"
           {...reveal(0.8)}
         >
           <ArrowDown className="size-3.5 motion-safe:animate-bounce" />
