@@ -139,7 +139,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
               <div className="space-y-6">
                 {project.award ? (
-                  <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                  <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 font-medium text-[11px] uppercase tracking-[0.18em] text-gold">
                     <Award className="size-3.5" />
                     {project.award}
                   </p>
@@ -173,7 +173,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 }`}
               >
                 <ProjectCoverArt className="h-full w-full" slug={project.slug} />
-                <span className="absolute bottom-4 left-5 font-mono text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                <span className="absolute bottom-4 left-5 font-medium text-[11px] uppercase tracking-[0.2em] text-text-muted">
                   Fig. 01 · {project.year}
                 </span>
               </div>
@@ -219,7 +219,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <ScrollReveal>
               <section className="space-y-6">
                 <div className="space-y-2">
-                  <span className="eyebrow">Gallery</span>
                   <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary">
                     From the build.
                   </h2>

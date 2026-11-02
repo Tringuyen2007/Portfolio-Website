@@ -35,7 +35,7 @@ export function ProjectList({ projects }: { projects: TreeProject[] }) {
           <div className="space-y-4" key={branch.id}>
             <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2">
               <h3 className="font-heading text-xl text-text-primary">{branch.label}</h3>
-              <span className="font-mono text-xs text-text-muted">{items.length}</span>
+              <span className="text-xs text-text-muted">{items.length}</span>
             </div>
             <ul className="space-y-2">
               {items.map((project) => (
@@ -49,11 +49,11 @@ export function ProjectList({ projects }: { projects: TreeProject[] }) {
                         <span className="font-semibold text-text-primary group-hover:text-accent-strong">
                           {project.title}
                         </span>
-                        <span className="font-mono text-[11px] text-text-muted">{project.year}</span>
+                        <span className="text-[11px] text-text-muted">{project.year}</span>
                         <span className="sr-only">{FRUIT_LABELS[project.fruit].label}</span>
                       </span>
                       {project.award ? (
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.12em] text-gold">
+                        <span className="inline-flex items-center gap-1 font-medium text-[11px] uppercase tracking-[0.12em] text-gold">
                           <Award className="size-3" />
                           {project.award}
                         </span>

@@ -27,7 +27,6 @@ export default function ProjectsPage() {
       <Container className="space-y-10">
         <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="space-y-4">
-            <span className="eyebrow">Projects &amp; Events · The tree</span>
             <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-6xl">
               Every fruit is a story.
             </h1>
@@ -36,7 +35,7 @@ export default function ProjectsPage() {
               Hover or tap a fruit for a glimpse, then click to step inside.
             </p>
           </div>
-          <dl className="flex gap-8 font-mono text-xs uppercase tracking-[0.18em] text-text-muted">
+          <dl className="flex gap-8 text-xs font-medium uppercase tracking-[0.18em] text-text-muted">
             <div>
               <dt>Fruits</dt>
               <dd className="mt-1 font-heading text-3xl normal-case tracking-normal text-text-primary">

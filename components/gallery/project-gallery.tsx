@@ -103,7 +103,7 @@ export function ProjectGallery({ images, title }: { images: GalleryImage[]; titl
           role="dialog"
         >
           <div className="flex items-center justify-between px-5 py-4 text-sm text-text-secondary">
-            <span className="font-mono text-xs">
+            <span className="text-xs">
               {(index ?? 0) + 1} / {images.length}
             </span>
             <button

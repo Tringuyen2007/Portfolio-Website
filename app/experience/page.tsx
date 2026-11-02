@@ -23,7 +23,6 @@ export default function ExperiencePage() {
       <Container className="space-y-20">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="space-y-5">
-            <span className="eyebrow">Experience · The trunk</span>
             <h1 className="font-heading text-5xl font-semibold tracking-[-0.045em] text-text-primary sm:text-6xl">
               Where the roots went down.
             </h1>
@@ -49,7 +48,9 @@ export default function ExperiencePage() {
         <ScrollReveal>
           <div className="space-y-8 border-t border-border pt-12">
             <div className="space-y-2">
-              <span className="eyebrow">Tech &amp; tools</span>
+              <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary sm:text-4xl">
+                Tech &amp; tools
+              </h2>
               <p className="max-w-xl text-sm leading-7 text-text-secondary">
                 What I reach for most often across {siteConfig.name.split(" ")[0]}&apos;s projects
                 and roles.

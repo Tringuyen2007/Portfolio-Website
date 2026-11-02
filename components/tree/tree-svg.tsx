@@ -230,7 +230,7 @@ export function TreeSvg({
                   y={branch.labelPosition.y - fontSize - 6}
                 />
                 <text
-                  className="font-mono"
+                  className="font-sans"
                   fill={branch.young ? "var(--text-muted)" : "var(--text-secondary)"}
                   fontSize={fontSize}
                   letterSpacing="0.16em"

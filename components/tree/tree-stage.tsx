@@ -245,7 +245,7 @@ export function TreeStage({ projects }: { projects: TreeProject[] }) {
             type="button"
           >
             {branch.shortLabel}
-            <span className="ml-1.5 font-mono text-[10px] text-text-muted">{branch.fruits.length}</span>
+            <span className="ml-1.5 font-medium text-[10px] text-text-muted">{branch.fruits.length}</span>
           </button>
         ))}
       </div>

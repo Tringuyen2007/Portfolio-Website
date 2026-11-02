@@ -22,7 +22,6 @@ export default function ContactPage() {
     <section className="py-18 sm:py-24">
       <Container className="space-y-16">
         <div className="max-w-3xl space-y-5">
-          <span className="eyebrow">Contact &amp; Resume</span>
           <h1 className="font-heading text-5xl font-semibold tracking-[-0.045em] text-text-primary sm:text-6xl">
             Let&apos;s grow something together.
           </h1>
@@ -102,7 +101,6 @@ export default function ContactPage() {
         <div className="scroll-mt-28 space-y-6" id="resume">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-2">
-              <span className="eyebrow">Resume</span>
               <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary sm:text-4xl">
                 The one-page version.
               </h2>

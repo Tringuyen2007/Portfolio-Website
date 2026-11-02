@@ -146,12 +146,12 @@ export function FruitPreview({
           <ProjectCoverArt className="h-full w-full" slug={project.slug} />
         </div>
         {project.award ? (
-          <p className="mt-1.5 inline-flex items-center gap-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold">
+          <p className="mt-1.5 inline-flex items-center gap-1 font-medium text-[9.5px] uppercase tracking-[0.14em] text-gold">
             <Award className="size-3" />
             <span className="line-clamp-1">{project.award}</span>
           </p>
         ) : (
-          <p className="mt-1.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-text-muted">
+          <p className="mt-1.5 font-medium text-[9.5px] uppercase tracking-[0.14em] text-text-muted">
             {project.event ?? project.year}
           </p>
         )}

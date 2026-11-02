@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <section className="py-18 sm:py-24">
       <Container className="max-w-3xl space-y-6">
-        <span className="eyebrow">404</span>
+        <p className="eyebrow-plain">404</p>
         <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
           That page is not here.
         </h1>

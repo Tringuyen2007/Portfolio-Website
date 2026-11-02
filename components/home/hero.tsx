@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
+import { PortraitVines } from "@/components/home/portrait-vines";
 import { siteConfig } from "@/lib/site";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -25,10 +26,6 @@ export function Hero() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
           <div className="space-y-8">
-            <motion.p className="eyebrow" {...reveal(0.05)}>
-              A living portfolio · The tree of my journey
-            </motion.p>
-
             <h1 className="font-heading font-semibold leading-[0.9] tracking-[-0.05em] text-text-primary">
               <motion.span
                 className="block text-[clamp(4rem,14vw,10.5rem)] italic text-accent"
@@ -63,7 +60,7 @@ export function Hero() {
           </div>
 
           <motion.figure
-            className="relative mx-auto w-full max-w-sm"
+            className="relative mx-auto mb-10 w-full max-w-sm"
             {...(reduce
               ? {}
               : {
@@ -72,6 +69,7 @@ export function Hero() {
                   transition: { duration: 1, delay: 0.3, ease: EASE },
                 })}
           >
+            <PortraitVines />
             <div className="relative aspect-[4/5] overflow-hidden rounded-t-[12rem] rounded-b-[1.6rem] border border-border bg-bg-soft">
               <Image
                 alt="Portrait of Tri Nguyen"
@@ -82,17 +80,13 @@ export function Hero() {
                 src="/images/profile.jpg"
               />
             </div>
-            <figcaption className="mt-3 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-text-muted">
-              <span>Fig. 01 · The gardener</span>
-              <span>San Antonio, TX</span>
-            </figcaption>
           </motion.figure>
         </div>
 
         <motion.a
-          aria-label="Scroll to about section"
-          className="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-text-muted hover:text-text-primary"
-          href="#about"
+          aria-label="Scroll to experience section"
+          className="mt-10 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
+          href="#experience"
           {...reveal(0.8)}
         >
           <ArrowDown className="size-3.5 motion-safe:animate-bounce" />
