@@ -6,7 +6,8 @@ import "./globals.css";
 import { IntroOverlay } from "@/components/intro-overlay";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { StarField } from "@/components/star-field";
+import { GroundGlow } from "@/components/ground-glow";
+import { ZoomProvider } from "@/components/transitions/zoom-provider";
 import { getBaseUrl, siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -68,10 +69,12 @@ export default function RootLayout({
       lang="en"
     >
       <body className="flex min-h-screen flex-col">
-        <StarField />
+        <GroundGlow />
         <IntroOverlay />
         <SiteHeader />
-        <main className="flex-1 min-h-0">{children}</main>
+        <ZoomProvider>
+          <main className="flex-1 min-h-0">{children}</main>
+        </ZoomProvider>
         <SiteFooter />
       </body>
     </html>

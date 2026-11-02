@@ -1,15 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #14161a;
-  --bg-elevated: #1b1e22;
-  --bg-soft: #20242a;
-  --border: #2a2d31;
-  --text-primary: #e6e7e9;
-  --text-secondary: #9ba1a8;
-  --text-muted: #6a7079;
-  --accent: #c7cbd1;
-  --accent-strong: #f3f4f6;
+  --bg: #101410;
+  --bg-elevated: #171c16;
+  --bg-soft: #1f2620;
+  --border: #2b3429;
+  --text-primary: #f1ead8;
+  --text-secondary: #b8b19b;
+  --text-muted: #7f7b68;
+  --accent: #d9b55a;
+  --accent-strong: #f0d27a;
+  --leaf: #6f9a5a;
+  --leaf-deep: #3f5d38;
+  --bark: #6b4a36;
+  --bark-deep: #3b2a1f;
+  --apple: #c8463c;
+  --apple-deep: #8e2f2a;
+  --gold: #e9c35c;
+  --gold-deep: #a9822a;
+  --blossom: #e8b4c0;
+  --blossom-deep: #b0788a;
 }
 
 @theme inline {
@@ -22,6 +32,14 @@
   --color-text-muted: var(--text-muted);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-leaf: var(--leaf);
+  --color-leaf-deep: var(--leaf-deep);
+  --color-bark: var(--bark);
+  --color-bark-deep: var(--bark-deep);
+  --color-apple: var(--apple);
+  --color-apple-deep: var(--apple-deep);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-fraunces);
@@ -35,10 +53,9 @@
   body {
     @apply min-h-screen bg-bg font-sans text-text-primary antialiased;
     background-image:
-      radial-gradient(ellipse 60% 40% at 20% -10%, rgba(150, 170, 220, 0.05), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 85% 110%, rgba(220, 190, 160, 0.035), transparent 60%),
-      radial-gradient(circle at top, rgba(231, 233, 237, 0.05), transparent 42rem),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%);
+      radial-gradient(ellipse 70% 45% at 50% 115%, rgba(217, 181, 90, 0.12), transparent 65%),
+      radial-gradient(ellipse 60% 40% at 15% -10%, rgba(111, 154, 90, 0.08), transparent 60%),
+      linear-gradient(180deg, rgba(241, 234, 216, 0.02), transparent 25%);
   }
 
   a {
@@ -46,7 +63,7 @@
   }
 
   ::selection {
-    background: rgba(199, 203, 209, 0.25);
+    background: rgba(217, 181, 90, 0.3);
     color: var(--text-primary);
   }
 
@@ -81,13 +98,89 @@
   50% { opacity: 0.6; }
 }
 
+@keyframes sway {
+  0%, 100% { transform: rotate(calc(var(--sway, 1deg) * -1)); }
+  50% { transform: rotate(var(--sway, 1deg)); }
+}
+
+@keyframes leaf-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.03) rotate(1.5deg); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes firefly {
+  0%, 100% { opacity: 0; transform: translateY(0); }
+  40% { opacity: 0.7; }
+  60% { opacity: 0.4; }
+  80% { opacity: 0; transform: translateY(-18px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
 @layer components {
   .animate-twinkle {
     animation: twinkle 4s ease-in-out infinite;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-3 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted;
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-text-muted;
+  }
+
+  .eyebrow-plain {
+    @apply font-mono text-[11px] uppercase tracking-[0.24em] text-text-muted;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-bg transition hover:bg-accent-strong;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-text-secondary transition hover:border-text-muted hover:text-text-primary;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-border;
+  }
+
+  .tree-sway {
+    animation: sway var(--sway-duration, 9s) ease-in-out infinite;
+    animation-delay: var(--sway-delay, 0s);
+    transform-box: fill-box;
+    transform-origin: var(--sway-origin, 0% 100%);
+  }
+
+  .leaf-breathe {
+    animation: leaf-breathe var(--leaf-duration, 7s) ease-in-out infinite;
+    animation-delay: var(--leaf-delay, 0s);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .gold-shimmer {
+    animation: shimmer 3.2s ease-in-out infinite;
+  }
+
+  [data-tree-paused] .tree-sway,
+  [data-tree-paused] .leaf-breathe,
+  [data-tree-paused] .gold-shimmer {
+    animation-play-state: paused;
+  }
+
+  .firefly {
+    animation: firefly var(--ff-duration, 6s) ease-in-out infinite;
+    animation-delay: var(--ff-delay, 0s);
+  }
+
+  .apple-clip {
+    clip-path: path("M110 18 C 140 -14, 212 2, 216 60 C 220 124, 176 196, 110 198 C 44 196, 0 124, 4 60 C 8 2, 80 -14, 110 18 Z");
   }
 
   .surface {
