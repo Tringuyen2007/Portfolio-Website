@@ -1,0 +1,58 @@
+---
+slug: "stochastic"
+title: "Stochastic"
+summary: "Four AI agents that merge an acquired company's books, ask a human only about the lines that matter, and never do the math themselves. Built at Cal Hacks 13.0."
+year: 2026
+stack:
+  - "Python"
+  - "FastAPI"
+  - "Claude"
+  - "Factory Droid SDK"
+  - "TigerData"
+featured: true
+archived: false
+repo: "https://github.com/cayden-h/stochastic"
+category: "hackathon"
+event: "Cal Hacks 13.0"
+role: "Finance tool layer & FastAPI backend"
+gallery:
+  - src: "/images/projects/stochastic/1.jpg"
+    alt: "Stochastic title card"
+    width: 1280
+    height: 721
+  - src: "/images/projects/stochastic/2.jpg"
+    alt: "Team selfie outdoors"
+    width: 1600
+    height: 1200
+  - src: "/images/projects/stochastic/3.jpg"
+    alt: "The team outdoors"
+    width: 1200
+    height: 1600
+---
+
+## Overview
+
+Private equity firms running a buy-and-build strategy keep bolting smaller companies onto a platform company — and every add-on has to clear the lender. Someone has to prove the combined books stay under the credit agreement's leverage limit, and today that is a spreadsheet, built by hand, where one mis-mapped line quietly flows into every number after it.
+
+Stochastic, built at Cal Hacks 13.0 (Hyphenate track), takes two sets of financial statements and the credit agreement and splits the work the way a real finance team would.
+
+## How it works
+
+1. **Read** the credit agreement and extract the limit, what counts as debt, and how EBITDA is adjusted — with a verbatim quote for every field.
+2. **Map** every line of the target onto the platform's chart of accounts, with a confidence and a reason.
+3. **Flag** only the genuinely unclear lines, and show the human what each answer would do to the result.
+4. **Combine** the books and **test** leverage against the lender's limit using the agreement's own definitions.
+5. **Review** the draft and hand it to a human controller to approve.
+
+The model never produces a number. Every figure on screen comes from a code tool, and the gateway rejects any number no tool produced. Decisions the controller makes once become policies the next run applies automatically.
+
+On the demo deal — Kewaunee Scientific's real acquisition of Nu Aire — one ambiguous "Financing liability" line swings leverage between **2.84x (in breach)** and **0.76x (plenty of room)**. That is the one line Stochastic asks a human about.
+
+## What I built
+
+- **Finance tool layer** in Python — consolidation, EBITDA, covenant debt, leverage, and the limit test — verified against a real credit agreement with a **435-test pytest suite**.
+- **FastAPI routes** for CSV deal upload, SSE stage streaming, controller edits, the compliance certificate, and final workbook export, backed by Postgres/TimescaleDB on Tiger Cloud.
+
+## Takeaway
+
+Let the model handle judgment, keep it away from the math, and make a human sign the parts that carry weight. Building the deterministic tools the agents call was a lesson in how much trust correctness has to earn.

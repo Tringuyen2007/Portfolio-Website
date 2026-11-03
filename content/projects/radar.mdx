@@ -1,0 +1,59 @@
+---
+slug: "radar"
+title: "Radar"
+summary: "A privacy-first home emergency system built at VTHacks 14: Wi-Fi sensing detects motion, a physical shutter uncovers the camera only when needed, and seven AI agents brief 911 with verified incident data."
+year: 2026
+stack:
+  - "Python"
+  - "Computer Vision"
+  - "Swift"
+  - "OpenVINO"
+  - "Multi-Agent AI"
+featured: true
+archived: false
+repo: "https://github.com/cayden-h/Radar"
+category: "hackathon"
+event: "VTHacks 14"
+award: "1st Place Best UI/UX · 2nd GoDaddy Best Use of ANS"
+role: "Wi-Fi sensing, master agent, iOS/watchOS"
+gallery:
+  - src: "/images/projects/radar/1.jpg"
+    alt: "The Radar team on stage with their awards"
+    width: 1600
+    height: 900
+  - src: "/images/projects/radar/2.jpg"
+    alt: "The auditorium during the event"
+    width: 1200
+    height: 1600
+  - src: "/images/projects/radar/3.jpg"
+    alt: "The team holding their awards"
+    width: 1200
+    height: 1600
+---
+
+## Overview
+
+Between 94% and 98% of police responses to burglar alarms are false. A normal alarm only knows one thing — something moved — so it escalates on the only signal it has. The obvious fix, a camera that is always recording inside your house, is exactly what most people refuse to install.
+
+Radar is a home that watches only when it has a reason to, and can prove to 911 that it had one. Built at VTHacks 14, it won **1st place for Best UI/UX** and **2nd place for GoDaddy's Best Use of Agent Name Service (ANS)**.
+
+## How it works
+
+- A laptop on the home Wi-Fi reads Channel State Information and notices motion.
+- A servo rotates ninety degrees and pulls a physical shield off the camera lens — until then, the camera literally cannot see.
+- A vision agent starts describing the room, and the resident gets that description on their Apple Watch in about three seconds.
+- If the resident decides it is an emergency, they start the incident from their wrist. Only then does a caller agent dial 911 and talk to the dispatcher in plain English, driven by what the camera is seeing.
+- When the call ends, the incident is sealed into a hash-chained record and sent to the responding department.
+
+Radar never calls 911 on its own. The only thing that happens without a human is a shutter opening.
+
+## What I built
+
+- **Wi-Fi sensing module** that detects intruder movement from Channel State Information, the trigger for the whole system.
+- **Master Agent** — the trust boundary and coordinator of a seven-agent backend. It classifies events, issues signed shutter grants, and coordinates the automated 911 call with live incident data.
+- **iPhone and Apple Watch UI** in SwiftUI for real-time safety alerts.
+- **Deployment** of the multi-agent backend and web dashboard on Vultr for real-time monitoring and post-incident review.
+
+## Takeaway
+
+Every agent has its own cryptographic identity, and identity decides whether a physical object moves. Designing a system where AI does the watching but a human makes the call taught me a lot about putting hard boundaries around autonomous agents.

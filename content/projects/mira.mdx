@@ -1,0 +1,51 @@
+---
+slug: "mira"
+title: "Mira"
+summary: "An at-home physical therapy coach that turns a webcam into a live 3D patient model, with real-time pose streaming, fall alerts, and AI coaching grounded in real patient data."
+year: 2026
+stack:
+  - "Python"
+  - "FastAPI"
+  - "Computer Vision"
+  - "Swift"
+  - "TigerData"
+featured: true
+archived: false
+repo: "https://github.com/Tringuyen2007/Mira"
+category: "hackathon"
+event: "CodeRED Orion"
+award: "1st Overall · MLH Best Use of Tiger Data"
+role: "Backend & real-time systems"
+gallery:
+  - src: "/images/projects/mira/1.jpg"
+    alt: "The Mira team on stage holding a prize check"
+    width: 1600
+    height: 1067
+  - src: "/images/projects/mira/2.jpg"
+    alt: "A handful of gold coins"
+    width: 1200
+    height: 1600
+  - src: "/images/projects/mira/3.jpg"
+    alt: "Mira running on a laptop with webcam pose tracking and a rep counter"
+    width: 1290
+    height: 719
+---
+
+## Overview
+
+Mira is an at-home physical therapy coach that turns a webcam into a live 3D model of the patient. It won **1st Overall** and **MLH Best Use of Tiger Data** at CodeRED Orion.
+
+The system tracks reps and form in real time, checks in when it detects a fall, and gives therapists a dashboard and an AI assistant grounded in their patient's actual session data. It spans a vision engine, an iPhone and Apple Watch app, a therapist dashboard, and a kiosk display, all connected through one server.
+
+## What I built
+
+I owned the server — the piece every other part of Mira plugs into.
+
+- **Real-time backend** in FastAPI with WebSocket streams for the device and dashboard, streaming 30 Hz pose data from the vision engine.
+- **Time-series storage** on TimescaleDB (Tiger Data), reaching **41× faster queries** and **2.74× lossless compression** on pose data.
+- **Four AI agents** (three using Gemini) for live coaching, fall alerts, session insights, and therapist Q&A, each grounded in real patient data.
+- **Safety path** — fall check-in and emergency call handling — plus the REST API the iOS app and dashboard depend on.
+
+## Takeaway
+
+A 30 Hz stream of pose frames adds up fast. Choosing the right storage early — and designing the server contract so four teammates could build their pieces in parallel — is what let us ship a working end-to-end system in a hackathon weekend.

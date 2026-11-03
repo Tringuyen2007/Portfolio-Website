@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "Tri Nguyen",
-  title: "Tri Nguyen | AI, Data Science, and Product-Minded Engineering",
+  title: "Tri Nguyen | A Living Portfolio",
   description:
-    "A calm, modern portfolio for Tri Nguyen, a UT San Antonio computer science student focused on AI, data science, and thoughtful software.",
+    "The living portfolio of Tri Nguyen, a UT San Antonio computer science student building AI, computer vision, and full-stack projects. Explore a growing tree of projects, hackathons, and achievements.",
+  resumePath: "/Tri_technical_resume.pdf",
   role: "Computer Science student at UT San Antonio",
   focus: "AI, data science, and product-minded engineering",
   school: "University of Texas at San Antonio",
@@ -19,10 +20,10 @@ export const siteConfig = {
     "Data Science",
   ],
   navItems: [
-    { label: "Overview", href: "/" },
-    { label: "Projects", href: "/projects" },
+    { label: "Home", href: "/" },
     { label: "Experience", href: "/experience" },
-    { label: "Contact", href: "/contact" },
+    { label: "Projects & Events", href: "/projects" },
+    { label: "Contact & Resume", href: "/contact" },
   ],
 } as const;
 

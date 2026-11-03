@@ -17,22 +17,30 @@ export default function OpenGraphImage() {
           display: "flex",
           height: "100%",
           width: "100%",
-          background: "#14161A",
-          color: "#E6E7E9",
-          padding: "56px",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          backgroundImage:
-            "radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 480px)",
+          background: "#0a0e24",
+          color: "#f3ead6",
+          padding: "40px",
         }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "space-between",
+            background: "#161a2f",
+            border: "8px solid #4a4f80",
+            boxShadow: "inset 0 8px 0 #2b3058",
+            padding: "48px 56px",
+          }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "16px",
-            fontSize: 28,
-            color: "#9BA1A8",
+            fontSize: 24,
+            color: "#e9b63a",
             letterSpacing: "0.16em",
             textTransform: "uppercase",
           }}
@@ -40,13 +48,14 @@ export default function OpenGraphImage() {
           <div
             style={{
               display: "flex",
-              width: 54,
-              height: 54,
-              borderRadius: 999,
-              border: "1px solid #2A2D31",
+              width: 56,
+              height: 56,
+              border: "4px solid #4a4f80",
+              background: "#0a0e24",
               alignItems: "center",
               justifyContent: "center",
-              color: "#E6E7E9",
+              color: "#f3ead6",
+              fontWeight: 700,
             }}
           >
             TN
@@ -72,7 +81,7 @@ export default function OpenGraphImage() {
               fontSize: 34,
               lineHeight: 1.45,
               maxWidth: "920px",
-              color: "#C7CBD1",
+              color: "#c9c1ad",
             }}
           >
             {siteConfig.description}
@@ -91,16 +100,17 @@ export default function OpenGraphImage() {
               key={item}
               style={{
                 display: "flex",
-                padding: "12px 18px",
-                borderRadius: 999,
-                border: "1px solid #2A2D31",
-                color: "#9BA1A8",
-                fontSize: 24,
+                padding: "10px 18px",
+                border: "4px solid #4a4f80",
+                background: "#0a0e24",
+                color: "#f3ead6",
+                fontSize: 22,
               }}
             >
               {item}
             </div>
           ))}
+        </div>
         </div>
       </div>
     ),

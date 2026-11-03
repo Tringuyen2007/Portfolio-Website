@@ -1,31 +1,27 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
 
 import "./globals.css";
 
 import { IntroOverlay } from "@/components/intro-overlay";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { StarField } from "@/components/star-field";
+import { PixelSky } from "@/components/pixel/pixel-sky";
+import { ZoomProvider } from "@/components/transitions/zoom-provider";
 import { getBaseUrl, siteConfig } from "@/lib/site";
 
-const geistSans = Geist({
+const pixelify = Pixelify_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-geist-sans",
+  variable: "--font-pixelify",
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
+const pressStart = Press_Start_2P({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-geist-mono",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fraunces",
-  axes: ["opsz", "SOFT", "WONK"],
+  variable: "--font-press-start",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -64,14 +60,20 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
+      className={`${pixelify.variable} ${pressStart.variable}`}
       lang="en"
     >
+      {process.env.NEXT_PUBLIC_FIGMA_CAPTURE === "1" ? (
+        // Dev-only: lets Figma's html-to-design capture pull pages from localhost.
+        <script async src="https://mcp.figma.com/mcp/html-to-design/capture.js" />
+      ) : null}
       <body className="flex min-h-screen flex-col">
-        <StarField />
+        <PixelSky />
         <IntroOverlay />
         <SiteHeader />
-        <main className="flex-1 min-h-0">{children}</main>
+        <ZoomProvider>
+          <main className="flex-1 min-h-0">{children}</main>
+        </ZoomProvider>
         <SiteFooter />
       </body>
     </html>
