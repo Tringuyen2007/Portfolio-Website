@@ -236,34 +236,63 @@ export function TreeSvg({
         <Leaves cluster={cluster} delay={-index * 1.9} key={`crown${index}`} />
       ))}
 
-      {/* branch labels sit above every leaf so they always read */}
+      {/* branch labels: small wooden signs hanging from each branch */}
       {showLabels
-        ? layout.branches.map((branch) => {
+        ? layout.branches.map((branch, index) => {
             const dim = highlightedBranch && highlightedBranch !== branch.id;
             const label = branch.shortLabel.toUpperCase();
-            const fontSize = frame.width > 900 ? 12 : 15;
-            const width = label.length * fontSize * 0.78 + 28;
-            const x = branch.side === "left" ? branch.labelPosition.x - width : branch.labelPosition.x;
+            const fontSize = frame.width > 900 ? 11.5 : 14.5;
+            const width = label.length * fontSize * 0.74 + 26;
+            const height = fontSize + 14;
+            const anchorX = branch.side === "left" ? branch.labelPosition.x - width / 2 : branch.labelPosition.x + width / 2;
+            const anchorY = branch.labelPosition.y - fontSize - 4;
+            const drop = 12;
+            const tilt = (index % 2 === 0 ? -1 : 1) * (branch.side === "left" ? 2.5 : -2.5);
             return (
-              <g className={`transition-opacity duration-500 ${dim ? "opacity-35" : "opacity-100"}`} key={`label-${branch.id}`}>
+              <g
+                className={`transition-opacity duration-500 ${dim ? "opacity-35" : "opacity-100"}`}
+                key={`label-${branch.id}`}
+                style={{ transformOrigin: `${anchorX}px ${anchorY}px`, transform: `rotate(${tilt}deg)` }}
+              >
+                {/* twine */}
+                <path
+                  d={`M${anchorX - 5} ${anchorY} l5 ${drop} l5 ${-drop}`}
+                  fill="none"
+                  stroke="#8a6a4a"
+                  strokeLinecap="round"
+                  strokeWidth="1.2"
+                />
+                <circle cx={anchorX} cy={anchorY} fill="#8a6a4a" r="1.6" />
+                {/* plank */}
                 <rect
-                  fill="var(--bg)"
-                  fillOpacity={0.82}
-                  height={fontSize + 16}
-                  rx={(fontSize + 16) / 2}
-                  stroke="var(--border)"
+                  fill="url(#bark-gradient)"
+                  height={height}
+                  rx="3"
+                  stroke="#2a1d15"
+                  strokeWidth="1"
                   width={width}
-                  x={x}
-                  y={branch.labelPosition.y - fontSize - 6}
+                  x={anchorX - width / 2}
+                  y={anchorY + drop}
+                />
+                <rect
+                  fill="none"
+                  height={height - 5}
+                  rx="2"
+                  stroke="#d9c7a0"
+                  strokeOpacity="0.28"
+                  width={width - 5}
+                  x={anchorX - width / 2 + 2.5}
+                  y={anchorY + drop + 2.5}
                 />
                 <text
                   className="font-sans"
-                  fill={branch.young ? "var(--text-muted)" : "var(--text-secondary)"}
+                  fill={branch.young ? "#d9c7a0" : "var(--text-primary)"}
                   fontSize={fontSize}
-                  letterSpacing="0.16em"
+                  fontWeight="600"
+                  letterSpacing="0.14em"
                   textAnchor="middle"
-                  x={x + width / 2}
-                  y={branch.labelPosition.y + 2}
+                  x={anchorX}
+                  y={anchorY + drop + height / 2 + fontSize * 0.36}
                 >
                   {label}
                 </text>
