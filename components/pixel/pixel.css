@@ -1,0 +1,57 @@
+/* Fitted stage scale (mirrors stageUnit() in lib/pixel/orchard.ts for a
+   196-art-px tree inside a 20 px-gutter container). */
+:root {
+  --stage-unit: 4;
+}
+@media (max-width: 827px) {
+  :root { --stage-unit: 3; }
+}
+@media (max-width: 627px) {
+  :root { --stage-unit: 2; }
+}
+
+/* Orchard stage: styles that only the Pixi tree island needs. */
+.orchard-canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.orchard-sign {
+  line-height: 1;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+}
+
+.orchard-apple-hit {
+  border: 0;
+  outline-offset: -2px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.orchard-apple-hit:focus-visible {
+  outline: 2px solid var(--accent-strong);
+}
+
+.orchard-apple-hit[data-dimmed] {
+  cursor: default;
+}
+
+/* Apple-shaped preview: the shell PNG is the whole frame; content sits in a plain inset. */
+.apple-preview-shell {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.apple-preview-enchanted {
+  filter: drop-shadow(0 0 14px rgba(178, 94, 232, 0.55));
+}
+
+/* Zoom clone: stepped, nearest-neighbour growth of the apple sprite. */
+.zoom-apple-clone {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
