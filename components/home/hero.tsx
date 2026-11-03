@@ -1,103 +1,80 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 
-import { PortraitVines } from "@/components/home/portrait-vines";
+import { Container } from "@/components/container";
+import { CloudBank } from "@/components/home/cloud-bank";
 import { siteConfig } from "@/lib/site";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
-  const reduce = useReducedMotion();
-  const reveal = (delay: number) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 22 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.8, delay, ease: EASE },
-        };
+  const heroRef = useRef<HTMLElement>(null);
+  // Same markup on server and client (no hydration mismatch); `data-reveal` lets
+  // globals.css pin these visible and still under prefers-reduced-motion.
+  const reveal = (delay: number) => ({
+    "data-reveal": "",
+    initial: { opacity: 0, y: 16 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay, ease: EASE },
+  });
 
   return (
-    <section className="relative overflow-hidden pt-10 pb-10 sm:pt-16 sm:pb-14">
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
-          <div className="space-y-8">
-            <h1 className="font-heading font-semibold leading-[0.9] tracking-[-0.05em] text-text-primary">
-              <motion.span
-                className="block text-[clamp(4rem,14vw,10.5rem)] italic text-accent"
-                style={{ fontVariationSettings: '"SOFT" 100, "WONK" 1' }}
-                {...reveal(0.15)}
-              >
-                Tri
-              </motion.span>
-              <motion.span className="block text-[clamp(4rem,14vw,10.5rem)]" {...reveal(0.28)}>
-                Nguyen
-              </motion.span>
-            </h1>
+    <section
+      className="relative flex min-h-[calc(100svh-72px)] flex-col justify-between overflow-hidden"
+      ref={heroRef}
+    >
+      <Container className="relative z-10 flex flex-1 flex-col justify-center pt-14 pb-[calc(var(--unit)*66)] sm:pt-20">
+        <div className="max-w-4xl space-y-8">
+          <motion.p className="eyebrow-plain text-accent sm:text-[10px]" {...reveal(0.05)}>
+            CS @ UT San Antonio · AI / Computer Vision / Full-Stack
+          </motion.p>
 
-            <motion.p className="max-w-xl text-base leading-8 text-text-secondary sm:text-lg" {...reveal(0.42)}>
-              Computer science student at UT San Antonio. I build AI, computer vision, and
-              full-stack projects, many of them over hackathon weekends, and I keep planting
-              new ones. This site is the tree they grow on.
-            </motion.p>
-
-            <motion.div className="flex flex-wrap gap-3" {...reveal(0.52)}>
-              <Link className="btn-primary" href="/projects">
-                Explore the tree
-                <ArrowRight className="size-4" />
-              </Link>
-              <Link className="btn-secondary" href="/experience">
-                Experience
-              </Link>
-              <Link className="btn-secondary" href="/contact">
-                Contact &amp; Resume
-              </Link>
-            </motion.div>
-          </div>
-
-          <motion.figure
-            className="relative mx-auto mb-10 w-full max-w-sm"
-            {...(reduce
-              ? {}
-              : {
-                  initial: { opacity: 0, scale: 0.96, y: 16 },
-                  animate: { opacity: 1, scale: 1, y: 0 },
-                  transition: { duration: 1, delay: 0.3, ease: EASE },
-                })}
+          <motion.h1
+            className="font-heading text-[64px] font-bold leading-[0.95] text-text-primary uppercase md:text-[clamp(64px,9.2vw,132px)]"
+            {...reveal(0.15)}
           >
-            <PortraitVines />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-t-[12rem] rounded-b-[1.6rem] border border-border bg-bg-soft">
-              <Image
-                alt="Portrait of Tri Nguyen"
-                className="object-cover"
-                fill
-                priority
-                sizes="(min-width: 1024px) 28vw, 80vw"
-                src="/images/profile.jpg"
-              />
-            </div>
-          </motion.figure>
+            {siteConfig.name}
+          </motion.h1>
+
+          <motion.p
+            className="max-w-[640px] text-[17px] leading-[29px] text-text-secondary"
+            {...reveal(0.3)}
+          >
+            His name is Tri(tree) and he loves to eat.
+          </motion.p>
+
+          <motion.div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap" {...reveal(0.42)}>
+            <Link className="btn-primary min-h-11 justify-center sm:w-auto" href="/projects">
+              Explore the tree
+            </Link>
+            <Link className="btn-secondary min-h-11 justify-center sm:w-auto" href="/experience">
+              Experience
+            </Link>
+            <Link className="btn-secondary min-h-11 justify-center sm:w-auto" href="/contact">
+              Contact &amp; Resume
+            </Link>
+          </motion.div>
         </div>
 
         <motion.a
-          aria-label="Scroll to the project tree"
-          className="mt-10 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
-          href="#tree"
-          {...reveal(0.8)}
+          className="eyebrow-plain mt-16 inline-flex min-h-11 w-fit items-center gap-3 hover:text-text-primary sm:mt-20"
+          href="#about"
+          {...reveal(0.7)}
         >
-          <ArrowDown className="size-3.5 motion-safe:animate-bounce" />
+          <span
+            aria-hidden="true"
+            className="block bg-accent motion-safe:animate-bounce"
+            style={{ width: "calc(var(--unit) * 2)", height: "calc(var(--unit) * 2)" }}
+          />
           Scroll to walk the orchard
         </motion.a>
       </Container>
+
+      <CloudBank heroRef={heroRef} />
       <span className="sr-only">{siteConfig.description}</span>
     </section>
   );
-}
-
-function Container({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">{children}</div>;
 }
