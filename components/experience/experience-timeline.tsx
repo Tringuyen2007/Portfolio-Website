@@ -45,7 +45,7 @@ export function ExperienceTimeline({
       {/* vine stem */}
       <svg
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-0 h-full w-16 sm:w-20"
+        className="pointer-events-none absolute left-0 top-0 h-[calc(100%-2.5rem)] w-16 sm:w-20"
         preserveAspectRatio="none"
         viewBox="0 0 100 1000"
       >
@@ -163,10 +163,11 @@ export function ExperienceTimeline({
           viewBox="-48 0 96 40"
         >
           <g fill="none" stroke="var(--bark)" strokeLinecap="round" strokeWidth="2">
-            <path d="M0 0 C-2 10 -10 14 -20 18 C-30 22 -38 24 -44 30" />
-            <path d="M0 0 C2 10 10 14 20 18 C30 22 36 26 42 32" />
-            <path d="M0 0 C-1 12 -4 22 -10 34" strokeWidth="1.4" />
-            <path d="M0 0 C1 12 6 20 12 30" strokeWidth="1.4" />
+            <path d="M0 -2 C-2 10 -10 14 -20 18 C-30 22 -38 24 -44 30" />
+            <path d="M0 -2 C2 10 10 14 20 18 C30 22 36 26 42 32" />
+            <path d="M0 -2 C-1 12 -4 22 -10 36" strokeWidth="1.4" />
+            <path d="M0 -2 C1 12 6 20 12 32" strokeWidth="1.4" />
+            <path d="M0 -2 C0 14 2 26 1 38" strokeWidth="1.1" />
           </g>
         </svg>
       </li>

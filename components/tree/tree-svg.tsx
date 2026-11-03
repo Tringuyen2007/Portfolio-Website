@@ -122,6 +122,39 @@ export function TreeSvg({
         ry={frame.branchLength * 0.12}
       />
 
+      {/* roots: a soft flare where the trunk meets the ground, then tapered roots (drawn behind the trunk) */}
+      {(() => {
+        const bx = frame.trunkBase.x;
+        const by = frame.trunkBase.y;
+        const w = layout.trunkWidth;
+        const roots: Array<[number, number, number, number, number]> = [
+          // [dx1, dy1, dx2, dy2, width] relative to trunk base; left side negative
+          [-0.9, 0.3, -2.6, 0.55, 0.42],
+          [-0.5, 0.5, -1.5, 0.95, 0.3],
+          [0.9, 0.3, 2.5, 0.5, 0.42],
+          [0.4, 0.5, 1.3, 1.0, 0.3],
+          [-0.2, 0.4, -0.5, 1.15, 0.22],
+          [0.15, 0.4, 0.35, 1.2, 0.22],
+        ];
+        return (
+          <g>
+            <path
+              d={`M${bx - w * 0.5} ${by - 70} C${bx - w * 0.55} ${by - 30} ${bx - w * 1.15} ${by - 8} ${bx - w * 1.5} ${by + 2} L${bx + w * 1.5} ${by + 2} C${bx + w * 1.15} ${by - 8} ${bx + w * 0.55} ${by - 30} ${bx + w * 0.5} ${by - 70} Z`}
+              fill="url(#bark-gradient)"
+            />
+            {roots.map(([dx1, dy1, dx2, dy2, rw], i) => {
+              const d = `M${bx + dx1 * w * 0.35} ${by - 4} C${bx + dx1 * w} ${by + dy1 * w * 0.6} ${bx + dx2 * w * 0.7} ${by + dy2 * w * 0.45} ${bx + dx2 * w} ${by + dy2 * w * 0.55}`;
+              return (
+                <g key={i}>
+                  <path d={d} fill="none" stroke="#3b2a1f" strokeLinecap="round" strokeWidth={w * rw} />
+                  <path d={d} fill="none" opacity="0.5" stroke="#6b4a36" strokeLinecap="round" strokeWidth={w * rw * 0.45} />
+                </g>
+              );
+            })}
+          </g>
+        );
+      })()}
+
       {/* trunk */}
       <path
         d={cubicToSvg(layout.trunk)}
@@ -139,12 +172,6 @@ export function TreeSvg({
         strokeWidth={layout.trunkWidth * 0.16}
         transform={`translate(${(layout.trunkWidth * 0.28).toFixed(1)} 0)`}
       />
-      {/* root flare */}
-      <path
-        d={`M${frame.trunkBase.x - layout.trunkWidth * 1.6} ${frame.trunkBase.y + 4} Q ${frame.trunkBase.x - layout.trunkWidth * 0.5} ${frame.trunkBase.y - 30}, ${frame.trunkBase.x} ${frame.trunkBase.y - 40} Q ${frame.trunkBase.x + layout.trunkWidth * 0.5} ${frame.trunkBase.y - 30}, ${frame.trunkBase.x + layout.trunkWidth * 1.6} ${frame.trunkBase.y + 4} Z`}
-        fill="#4a3326"
-      />
-
       {/* branches (behind canopy and fruits) */}
       {layout.branches.map((branch, index) => {
         const dim = highlightedBranch && highlightedBranch !== branch.id;
