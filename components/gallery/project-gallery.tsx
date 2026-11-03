@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type GalleryImage = {
@@ -12,9 +11,16 @@ export type GalleryImage = {
   height?: number;
 };
 
+const PLACEHOLDERS = ["Screenshot · soon", "Demo · soon", "Team photo · soon"];
+
+const controlClass =
+  "panel inline-flex size-11 items-center justify-center font-label text-[10px] text-text-primary hover:bg-bg-soft";
+
 /**
- * Responsive masonry-ish grid with a fullscreen lightbox. Keyboard: arrows and
- * Escape. Touch: swipe left/right. Images lazy-load through next/image.
+ * Pixel-framed photo grid with a fullscreen lightbox. Real photos are never
+ * pixelated: the frame is pixel art, the fill is the image. Keyboard: arrows
+ * and Escape. Touch: swipe left/right. With no images, labelled placeholder
+ * tiles keep the section's rhythm.
  */
 export function ProjectGallery({ images, title }: { images: GalleryImage[]; title: string }) {
   const [index, setIndex] = useState<number | null>(null);
@@ -48,7 +54,21 @@ export function ProjectGallery({ images, title }: { images: GalleryImage[]; titl
     };
   }, [open, close, step]);
 
-  if (images.length === 0) return null;
+  if (images.length === 0) {
+    return (
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" role="list">
+        {PLACEHOLDERS.map((label, i) => (
+          <li className={i === 0 ? "col-span-2 sm:col-span-1" : ""} key={label}>
+            <div className="panel flex aspect-[4/3] items-center justify-center p-4 text-center">
+              <span className="font-label text-[8px] uppercase leading-[1.8] tracking-[0.04em] text-text-muted sm:text-[9px]">
+                {label}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   const current = index !== null ? images[index] : null;
 
@@ -57,25 +77,29 @@ export function ProjectGallery({ images, title }: { images: GalleryImage[]; titl
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" role="list">
         {images.map((image, i) => {
           const wide = i % 5 === 0;
+          // With exactly three photos, the lead one fills two rows on desktop so the grid has no gap.
+          const lead = wide && i === 0 && images.length === 3;
           return (
-            <li className={wide ? "col-span-2" : ""} key={image.src}>
+            <li className={wide ? `col-span-2${lead ? " sm:row-span-2" : ""}` : ""} key={image.src}>
               <button
                 aria-label={`Open image: ${image.alt}`}
-                className={`surface group relative block w-full overflow-hidden ${
-                  wide ? "aspect-[16/9]" : "aspect-[4/3]"
+                className={`panel group relative block w-full overflow-hidden p-[var(--unit)] ${
+                  wide ? `aspect-[16/9]${lead ? " sm:aspect-auto sm:h-full" : ""}` : "aspect-[4/3]"
                 }`}
                 onClick={() => setIndex(i)}
                 type="button"
               >
-                <Image
-                  alt={image.alt}
-                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  fill
-                  sizes={wide ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 50vw"}
-                  src={image.src}
-                />
+                <span className="relative block size-full overflow-hidden">
+                  <Image
+                    alt={image.alt}
+                    className="object-cover"
+                    fill
+                    sizes={wide ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 50vw"}
+                    src={image.src}
+                  />
+                </span>
                 {image.caption ? (
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg/90 to-transparent px-3 pb-2 pt-8 text-left text-xs text-text-secondary">
+                  <span className="absolute inset-x-[var(--unit)] bottom-[var(--unit)] bg-bg/90 px-3 py-2 text-left text-[15px] leading-6 text-text-secondary">
                     {image.caption}
                   </span>
                 ) : null}
@@ -89,7 +113,7 @@ export function ProjectGallery({ images, title }: { images: GalleryImage[]; titl
         <div
           aria-label={`${title} gallery`}
           aria-modal="true"
-          className="fixed inset-0 z-[80] flex flex-col bg-bg/95 backdrop-blur-sm"
+          className="fixed inset-0 z-[80] flex flex-col bg-bg/95"
           onClick={close}
           onTouchEnd={(event) => {
             if (touchStart.current === null) return;
@@ -102,53 +126,41 @@ export function ProjectGallery({ images, title }: { images: GalleryImage[]; titl
           }}
           role="dialog"
         >
-          <div className="flex items-center justify-between px-5 py-4 text-sm text-text-secondary">
-            <span className="text-xs">
+          <div className="flex items-center justify-between px-5 py-4">
+            <span className="font-label text-[9px] uppercase text-text-muted">
               {(index ?? 0) + 1} / {images.length}
             </span>
-            <button
-              aria-label="Close gallery"
-              className="inline-flex size-11 items-center justify-center rounded-full border border-border bg-bg-elevated text-text-primary"
-              onClick={close}
-              type="button"
-            >
-              <X className="size-5" />
+            <button aria-label="Close gallery" className={controlClass} onClick={close} type="button">
+              ✕
             </button>
           </div>
           <div className="relative flex-1 px-4 pb-6" onClick={(event) => event.stopPropagation()}>
             <div className="relative h-full w-full">
-              <Image
-                alt={current.alt}
-                className="object-contain"
-                fill
-                priority
-                sizes="100vw"
-                src={current.src}
-              />
+              <Image alt={current.alt} className="object-contain" fill priority sizes="100vw" src={current.src} />
             </div>
             {images.length > 1 ? (
               <>
                 <button
                   aria-label="Previous image"
-                  className="absolute left-4 top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-bg-elevated/90 text-text-primary"
+                  className={`${controlClass} absolute left-4 top-1/2 -translate-y-1/2`}
                   onClick={() => step(-1)}
                   type="button"
                 >
-                  <ChevronLeft className="size-5" />
+                  ◀
                 </button>
                 <button
                   aria-label="Next image"
-                  className="absolute right-4 top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-bg-elevated/90 text-text-primary"
+                  className={`${controlClass} absolute right-4 top-1/2 -translate-y-1/2`}
                   onClick={() => step(1)}
                   type="button"
                 >
-                  <ChevronRight className="size-5" />
+                  ▶
                 </button>
               </>
             ) : null}
           </div>
           {current.caption ? (
-            <p className="px-6 pb-6 text-center text-sm text-text-secondary">{current.caption}</p>
+            <p className="px-6 pb-6 text-center text-[15px] leading-7 text-text-secondary">{current.caption}</p>
           ) : null}
         </div>
       ) : null}
