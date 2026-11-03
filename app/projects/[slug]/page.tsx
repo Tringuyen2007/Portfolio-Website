@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MDXContent } from "@content-collections/mdx/react";
-import { ArrowRight, ArrowUpRight, Award, FolderGit2, Globe, Newspaper, Trophy } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/container";
 import { ProjectGallery } from "@/components/gallery/project-gallery";
 import { JsonLd } from "@/components/json-ld";
 import { mdxComponents } from "@/components/mdx-components";
+import { AppleSprite } from "@/components/project/apple-sprite";
+import { AwardChip } from "@/components/project/award-chip";
 import { BackToTree } from "@/components/project/back-to-tree";
-import { ProjectCoverArt } from "@/components/project-art";
+import { SceneArt } from "@/components/project/scene-art";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { StackIconGrid } from "@/components/stack-icon-grid";
 import { getBranchForCategory } from "@/content/branches";
 import { getAllProjects, getProjectBySlug } from "@/lib/content/projects";
 import { absoluteUrl, siteConfig } from "@/lib/site";
-import { FRUIT_LABELS } from "@/lib/tree/types";
+import { APPLE_LABELS } from "@/lib/tree/types";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -59,14 +59,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   };
 }
 
-const linkIcon = {
-  github: FolderGit2,
-  devpost: Trophy,
-  live: Globe,
-  article: Newspaper,
-  event: Globe,
-  other: ArrowUpRight,
-} as const;
+const labelClass = "font-label text-[8px] uppercase leading-[1.6] tracking-[0.04em] text-text-muted sm:text-[9px]";
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
@@ -80,7 +73,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const position = all.findIndex((p) => p.slug === project.slug);
   const next = all[(position + 1) % all.length];
   const branch = getBranchForCategory(project.category);
-  const golden = project.fruit === "golden";
+  const enchanted = project.apple === "enchanted";
+  const article = project.links.find((link) => link.kind === "article");
+  // The article is surfaced inside the enchanted award chip; keep it out of the button row there.
+  const buttonLinks = project.links.filter((link) => !(enchanted && link.kind === "article" && project.award));
 
   const facts: { label: string; value: string }[] = [
     { label: "Year", value: project.date ?? String(project.year) },
@@ -122,127 +118,135 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       <article className="pb-20">
         {/* Hero: the zoom clone cross-fades into this band. */}
-        <section
-          className={`relative overflow-hidden border-b border-border ${
-            golden ? "bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(233,195,92,0.14),transparent_70%)]" : "bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(200,70,60,0.10),transparent_70%)]"
-          }`}
-          data-zoom-target
-        >
+        <section className="relative" data-zoom-target>
           <Container className="space-y-10 py-12 sm:py-16">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <BackToTree fruit={project.fruit} slug={project.slug} />
-              <span className="eyebrow-plain">
-                {branch.shortLabel} · {FRUIT_LABELS[project.fruit].label}
+              <span className={`${labelClass} inline-flex items-center gap-2`}>
+                <AppleSprite kind={project.apple} size={3} />
+                {branch.shortLabel} · {APPLE_LABELS[project.apple].label}
               </span>
             </div>
 
             <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
               <div className="space-y-6">
                 {project.award ? (
-                  <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 font-medium text-[11px] uppercase tracking-[0.18em] text-gold">
-                    <Award className="size-3.5" />
-                    {project.award}
-                  </p>
+                  <AwardChip apple={project.apple} articleHref={article?.href} award={project.award} />
                 ) : null}
-                <h1 className="font-heading text-5xl font-semibold tracking-[-0.045em] text-text-primary sm:text-7xl">
+                <h1 className="font-heading text-5xl font-bold leading-[0.95] text-text-primary sm:text-6xl lg:text-7xl">
                   {project.title}
                 </h1>
-                <p className="max-w-xl text-lg leading-8 text-text-secondary">{project.summary}</p>
-                <div className="flex flex-wrap gap-3">
-                  {project.links.map((link) => {
-                    const Icon = linkIcon[link.kind];
-                    return (
-                      <a
-                        className={link.kind === "github" ? "btn-secondary" : link.kind === "live" ? "btn-primary" : "btn-secondary"}
-                        href={link.href}
-                        key={link.href}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        <Icon className="size-4" />
-                        {link.label}
-                      </a>
-                    );
-                  })}
+                <p className="max-w-xl text-[17px] leading-[29px] text-text-secondary">{project.summary}</p>
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  {buttonLinks.map((link) => (
+                    <a
+                      className={`${link.kind === "live" ? "btn-primary" : "btn-secondary"} justify-center`}
+                      href={link.href}
+                      key={link.href}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {link.label}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ))}
                 </div>
               </div>
 
-              <div
-                className={`surface relative aspect-[4/3] overflow-hidden p-6 ${
-                  golden ? "border-gold/40 shadow-[0_0_80px_-30px_rgba(233,195,92,0.6)]" : ""
-                }`}
+              <figure
+                className="panel relative mx-auto flex w-full max-w-[350px] flex-col items-center justify-center gap-3 px-4 py-6 lg:mx-0 lg:max-w-none lg:py-8"
+                style={enchanted ? { borderColor: "var(--ench)" } : undefined}
               >
-                <ProjectCoverArt className="h-full w-full" slug={project.slug} />
-                <span className="absolute bottom-4 left-5 font-medium text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                <span className={`${labelClass} absolute left-4 top-3`}>Hero art</span>
+                <SceneArt slug={project.slug} title={project.title} />
+                <figcaption className={`${labelClass} absolute bottom-3 right-4`}>
                   Fig. 01 · {project.year}
-                </span>
-              </div>
+                </figcaption>
+              </figure>
             </div>
           </Container>
         </section>
 
+        <div className="section-rule" />
+
         <Container className="space-y-16 pt-12">
           <ScrollReveal>
-            <dl className="grid gap-x-8 gap-y-6 border-b border-border pb-10 sm:grid-cols-3 lg:grid-cols-4">
+            <dl className="grid gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
               {facts.map((fact) => (
                 <div key={fact.label}>
-                  <dt className="eyebrow-plain">{fact.label}</dt>
-                  <dd className="mt-2 text-sm text-text-primary">{fact.value}</dd>
+                  <dt className={labelClass}>{fact.label}</dt>
+                  <dd className="mt-2 text-[15px] leading-6 text-text-primary">{fact.value}</dd>
                 </div>
               ))}
             </dl>
           </ScrollReveal>
 
-          <div className="grid gap-12 lg:grid-cols-[1fr_16rem]">
+          <div className="section-rule" />
+
+          <div className="grid gap-12 lg:grid-cols-[1fr_17rem]">
             <ScrollReveal>
               <div data-prose>
                 <MDXContent code={project.body} components={mdxComponents} />
               </div>
             </ScrollReveal>
 
-            <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
+            <aside className="panel space-y-8 self-start p-5 lg:sticky lg:top-28">
               <div>
-                <p className="eyebrow-plain">Built with</p>
+                <p className={labelClass}>Built with</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {project.stack.map((item) => (
-                    <span className="pill text-xs" key={item}>
+                    <span className="pill" key={item}>
                       {item}
                     </span>
                   ))}
                 </div>
               </div>
-              <StackIconGrid stack={project.stack} />
+              {project.links.length ? (
+                <div>
+                  <p className={labelClass}>Links</p>
+                  <ul className="mt-2">
+                    {project.links.map((link) => (
+                      <li key={link.href}>
+                        <a
+                          className="inline-flex min-h-11 items-center gap-2 text-[15px] leading-6 text-text-primary underline decoration-border underline-offset-4 hover:decoration-accent"
+                          href={link.href}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {link.label}
+                          <span aria-hidden="true" className="text-text-muted">
+                            ↗
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </aside>
           </div>
 
-          {project.gallery.length ? (
-            <ScrollReveal>
-              <section className="space-y-6">
-                <div className="space-y-2">
-                  <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary">
-                    From the build.
-                  </h2>
-                </div>
-                <ProjectGallery images={project.gallery} title={project.title} />
-              </section>
-            </ScrollReveal>
-          ) : null}
+          <ScrollReveal>
+            <section className="space-y-6">
+              <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl">From the build.</h2>
+              <ProjectGallery images={project.gallery} title={project.title} />
+            </section>
+          </ScrollReveal>
 
           <ScrollReveal>
-            <div className="flex flex-col gap-6 border-t border-border pt-10 sm:flex-row sm:items-center sm:justify-between">
+            <div className="section-rule" />
+            <div className="flex flex-col gap-6 pt-10 sm:flex-row sm:items-center sm:justify-between">
               <BackToTree fruit={project.fruit} slug={project.slug} />
               {next ? (
                 <Link
-                  className="group inline-flex items-center gap-3 text-right"
+                  className="group inline-flex min-h-11 items-center gap-3 font-label text-[9px] uppercase leading-[1.6] tracking-[0.04em] text-text-secondary hover:text-accent-strong sm:text-[10px]"
                   href={`/projects/${next.slug}`}
                 >
+                  <AppleSprite kind={next.apple} size={4} />
                   <span>
-                    <span className="eyebrow-plain block">Next fruit</span>
-                    <span className="font-heading text-2xl text-text-primary group-hover:text-accent-strong">
-                      {next.title}
-                    </span>
+                    Next apple · <span className="text-text-primary group-hover:text-accent-strong">{next.title}</span>
                   </span>
-                  <ArrowRight className="size-5 text-text-muted group-hover:text-accent-strong" />
+                  <span aria-hidden="true">▸</span>
                 </Link>
               ) : null}
             </div>

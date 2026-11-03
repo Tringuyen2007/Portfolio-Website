@@ -1,25 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 import { useZoom } from "@/components/transitions/zoom-provider";
-import { FRUIT_COLORS } from "@/lib/tree/types";
+import { APPLE_COLORS, APPLE_SPRITES, type AppleKind, type FRUIT_COLORS } from "@/lib/tree/types";
 
 export function BackToTree({
   slug,
   fruit,
+  apple,
   className = "",
 }: {
   slug: string;
-  fruit: keyof typeof FRUIT_COLORS;
+  /** Legacy fruit kind; used to pick the apple colour when `apple` is absent. */
+  fruit?: keyof typeof FRUIT_COLORS;
+  apple?: AppleKind;
   className?: string;
 }) {
   const { zoomBack } = useZoom();
+  const kind: AppleKind = apple ?? (fruit === "golden" ? "golden" : "red");
 
   return (
     <Link
-      className={`inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary ${className}`}
+      className={`inline-flex min-h-11 items-center gap-3 font-label text-[9px] uppercase leading-[1.6] tracking-[0.04em] text-text-secondary hover:text-accent-strong sm:text-[10px] ${className}`}
       href="/projects"
       onClick={(event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
@@ -29,10 +32,10 @@ export function BackToTree({
         } catch {
           /* ignore */
         }
-        zoomBack("/projects", `[data-fruit="${slug}"] .fruit-body`, FRUIT_COLORS[fruit]);
+        zoomBack("/projects", `[data-apple="${slug}"]`, APPLE_COLORS[kind], APPLE_SPRITES[kind]);
       }}
     >
-      <ArrowLeft className="size-4" />
+      <span aria-hidden="true">◀</span>
       Back to the tree
     </Link>
   );

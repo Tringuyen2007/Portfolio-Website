@@ -9,6 +9,7 @@ export function toTreeProject(project: Project): TreeProject {
     summary: project.summary,
     category: project.category,
     fruit: project.fruit,
+    apple: project.apple,
     status: project.status,
     year: project.year,
     date: project.date,
@@ -16,5 +17,6 @@ export function toTreeProject(project: Project): TreeProject {
     event: project.event,
     tree: project.tree,
     href: `/projects/${project.slug}`,
+    articleHref: project.links.find((link) => link.kind === "article")?.href,
   };
 }

@@ -11,6 +11,9 @@ export const projectCategories = [
 ] as const;
 
 export const fruitTypes = ["golden", "ripe", "green", "blossom"] as const;
+export const appleKinds = ["red", "golden", "enchanted"] as const;
+/** The single project allowed to carry the Enchanted Golden Apple. */
+export const ENCHANTED_SLUG = "vision";
 export const projectStatuses = ["completed", "in-progress", "ongoing"] as const;
 export const linkKinds = ["github", "devpost", "live", "article", "event", "other"] as const;
 
@@ -43,6 +46,8 @@ const projects = defineCollection({
     status: z.enum(projectStatuses).default("completed"),
     fruit: z.enum(fruitTypes).optional(),
     award: z.string().optional(),
+    /** Enchanted Golden Apple. Build fails unless slug === ENCHANTED_SLUG. */
+    enchanted: z.boolean().default(false),
     event: z.string().optional(),
     location: z.string().optional(),
     role: z.string().optional(),
@@ -86,6 +91,17 @@ const projects = defineCollection({
       links.push({ label: "Article", href: document.articleUrl, kind: "article" });
     }
 
+    if (document.enchanted && document.slug !== ENCHANTED_SLUG) {
+      throw new Error(
+        `Only "${ENCHANTED_SLUG}" may set enchanted: true (found on "${document.slug}")`,
+      );
+    }
+    const apple: (typeof appleKinds)[number] = document.enchanted
+      ? "enchanted"
+      : award
+        ? "golden"
+        : "red";
+
     const fruit =
       document.fruit ??
       (award
@@ -97,6 +113,7 @@ const projects = defineCollection({
     return {
       ...document,
       award,
+      apple,
       fruit,
       links,
       body,
