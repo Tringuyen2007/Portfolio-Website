@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/container";
 import { ExperienceTimeline } from "@/components/experience/experience-timeline";
@@ -23,22 +22,22 @@ export default function ExperiencePage() {
       <Container className="space-y-20">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="space-y-5">
-            <h1 className="font-heading text-5xl font-semibold tracking-[-0.045em] text-text-primary sm:text-6xl">
-              Where the roots went down.
+            <p className="eyebrow-plain">Growth rings</p>
+            <h1 className="font-heading text-5xl font-bold leading-[0.95] text-text-primary sm:text-6xl">
+              Where the vine has climbed.
             </h1>
-            <p className="max-w-xl text-base leading-8 text-text-secondary sm:text-lg">
+            <p className="max-w-xl text-base leading-8 text-text-secondary sm:text-[17px]">
               The roles that shaped how I build: shipping production sites, working inside cloud
               infrastructure, and keeping a 2000-member student organization running.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3 lg:justify-end">
-            <Link className="btn-primary" href="/contact#resume">
-              <FileText className="size-4" />
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+            <Link className="btn-primary justify-center" href="/contact#resume">
               View resume
             </Link>
-            <Link className="btn-secondary" href="/projects">
+            <Link className="btn-secondary justify-center" href="/projects">
               Explore the tree
-              <ArrowRight className="size-4" />
+              <span aria-hidden="true">▸</span>
             </Link>
           </div>
         </div>
@@ -46,20 +45,21 @@ export default function ExperiencePage() {
         <ExperienceTimeline entries={experience} />
 
         <ScrollReveal>
-          <div className="space-y-8 border-t border-border pt-12">
+          <div className="section-rule" />
+          <div className="space-y-8 pt-12">
             <div className="space-y-2">
-              <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary sm:text-4xl">
-                Tech &amp; tools
-              </h2>
-              <p className="max-w-xl text-sm leading-7 text-text-secondary">
+              <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl">Tech &amp; tools</h2>
+              <p className="max-w-xl text-[15px] leading-7 text-text-secondary">
                 What I reach for most often across {siteConfig.name.split(" ")[0]}&apos;s projects
                 and roles.
               </p>
             </div>
-            <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <dl className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {skillGroups.map((group) => (
-                <div className="surface p-5" key={group.label}>
-                  <dt className="eyebrow-plain">{group.label}</dt>
+                <div className="panel p-5" key={group.label}>
+                  <dt className="font-label text-[8px] uppercase leading-[1.8] tracking-[0.04em] text-gold sm:text-[9px]">
+                    {group.label}
+                  </dt>
                   <dd className="mt-3 flex flex-wrap gap-2">
                     {group.skills.map((skill) => (
                       <span className="pill" key={skill}>

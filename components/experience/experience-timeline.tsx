@@ -1,9 +1,3 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
-
-import { Bud, Leaf, Rose } from "@/components/botanical/flora";
 import type { ExperienceEntry } from "@/content/experience";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ExperienceDetails } from "@/components/experience/experience-details";
@@ -14,17 +8,17 @@ const kindLabel: Record<ExperienceEntry["kind"], string> = {
   academic: "Academic",
 };
 
-/**
- * The climbing vine. A gently winding stem drawn once in a tall viewBox and
- * stretched to the list's height (non-scaling stroke keeps it crisp). It grows
- * with scroll: the stem is drawn as you read down, like the vine is climbing.
- *
- * Nodes sit in a gutter whose center is the vine's average x, and the wiggle
- * amplitude is smaller than the node radius so every node lands on the stem.
- */
-const VINE_PATH =
-  "M50 0 C68 90 30 170 50 260 S72 420 50 520 S30 680 50 780 S70 920 50 1000";
+/** vine-tile.png is 8×16 art px; it repeats vertically at unit scale. */
+const VINE_W = 8;
+const VINE_H = 16;
+/** flower.png is 10×10 art px; each role blooms on the vine at 1×. */
+const FLOWER = 10;
 
+/**
+ * The pixel vine. A tiled sprite climbs the gutter; each role is a flower
+ * blooming on it. Current roles glow. Everything is a multiple of var(--unit)
+ * so the art stays crisp at both breakpoints.
+ */
 export function ExperienceTimeline({
   entries,
   compact = false,
@@ -32,121 +26,88 @@ export function ExperienceTimeline({
   entries: ExperienceEntry[];
   compact?: boolean;
 }) {
-  const ref = useRef<HTMLOListElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 78%", "end 55%"],
-  });
-  const growth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.6 });
+  const px = (artPixels: number) => `calc(var(--unit) * ${artPixels})`;
+  // Gutter layout in art px: stem occupies 4..12, text starts at 20.
+  const STEM_LEFT = 4;
+  const TEXT_LEFT = 20;
 
   return (
-    <ol className="relative pl-16 sm:pl-20" ref={ref}>
+    <ol className="relative" style={{ paddingLeft: px(TEXT_LEFT) }}>
       {/* vine stem */}
-      <svg
+      <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-0 h-[calc(100%-2.5rem)] w-16 sm:w-20"
-        preserveAspectRatio="none"
-        viewBox="0 0 100 1000"
-      >
-        <defs>
-          <linearGradient id="exp-vine" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="var(--leaf)" />
-            <stop offset="0.6" stopColor="var(--leaf-deep)" />
-            <stop offset="1" stopColor="var(--bark-deep)" />
-          </linearGradient>
-        </defs>
-        {/* faint full stem so the route is always legible */}
-        <path
-          d={VINE_PATH}
-          fill="none"
-          stroke="var(--border)"
-          strokeWidth="2"
-          vectorEffect="non-scaling-stroke"
-        />
-        <motion.path
-          d={VINE_PATH}
-          fill="none"
-          stroke="url(#exp-vine)"
-          strokeLinecap="round"
-          strokeWidth="3"
-          style={{ pathLength: reduce ? 1 : growth }}
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+        className="pixelated pointer-events-none absolute top-0 h-[calc(100%-2rem)]"
+        style={{
+          left: px(STEM_LEFT),
+          width: px(VINE_W),
+          backgroundImage: "url(/pixel/vine-tile.png)",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: `${px(VINE_W)} ${px(VINE_H)}`,
+        }}
+      />
 
       {entries.map((entry, index) => {
         const current = entry.end === "Present";
-        const side = index % 2 === 0 ? 1 : -1;
         return (
           <li
             className={`relative ${index === entries.length - 1 ? "" : compact ? "pb-14" : "pb-20 sm:pb-24"}`}
             key={entry.id}
           >
-            {/* node: open rose for the current role, bud for past roles */}
+            {/* flower on the vine */}
+            <span
+              aria-hidden="true"
+              className="absolute top-1 flex items-center justify-center"
+              style={{
+                left: px(-TEXT_LEFT + STEM_LEFT + (VINE_W - FLOWER) / 2),
+                width: px(FLOWER),
+                height: px(FLOWER),
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element -- pixel sprite at exact art scale */}
+              <img
+                alt=""
+                className="pixelated block size-full"
+                height={10}
+                loading="lazy"
+                src="/pixel/flower.png"
+                style={
+                  current
+                    ? { filter: "drop-shadow(0 0 calc(var(--unit) * 2) #f2b8c6) brightness(1.1)" }
+                    : undefined
+                }
+                width={10}
+              />
+            </span>
             {/* hairline from the vine to the entry */}
             <span
               aria-hidden="true"
-              className="absolute top-9 -left-8 h-px w-8 bg-border sm:-left-10 sm:w-10"
+              className="absolute top-[calc(var(--unit)*4)] h-[2px] bg-border"
+              style={{ left: px(-TEXT_LEFT + STEM_LEFT + VINE_W), width: px(TEXT_LEFT - STEM_LEFT - VINE_W - 2) }}
             />
 
-            <ScrollReveal
-              className="absolute top-0 -left-8 size-16 -translate-x-1/2 sm:-left-10 sm:size-20"
-              delay={0.1}
-            >
-              <svg
-                aria-hidden="true"
-                className="size-full overflow-visible"
-                viewBox="-36 -36 72 72"
-              >
-                <Leaf flip rotate={-55} size={0.7} x={-8} y={-16} />
-                <Leaf rotate={70} size={0.65} x={6} y={22} />
-                {current ? (
-                  <>
-                    <circle fill="var(--blossom)" fillOpacity="0.12" r="30" />
-                    <circle
-                      className="motion-safe:animate-[pulse-ring_2.8s_ease-out_infinite]"
-                      fill="none"
-                      r="16"
-                      stroke="var(--blossom)"
-                      strokeOpacity="0.6"
-                      style={{ transformOrigin: "0 0" }}
-                    />
-                    <Rose rotate={side * 10} size={1.15} tone="blossom" x={0} y={0} />
-                  </>
-                ) : (
-                  <Bud rotate={side * 18} size={1.1} x={0} y={10} />
-                )}
-              </svg>
-              {current ? (
-                <span className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap font-heading text-xs italic text-blossom">
-                  In bloom
-                </span>
-              ) : null}
-            </ScrollReveal>
-
             <ScrollReveal delay={index * 0.06}>
-              <article
-                className={`grid gap-6 ${compact ? "" : "lg:grid-cols-[13rem_1fr] lg:gap-12"}`}
-              >
-                <header className="space-y-2 pt-3">
-                  <p className="eyebrow-plain text-text-secondary">
+              <article className={`grid gap-5 ${compact ? "" : "lg:grid-cols-[13rem_1fr] lg:gap-12"}`}>
+                <header className="space-y-3">
+                  <p className="font-label text-[8px] uppercase leading-[1.8] tracking-[0.04em] text-text-muted sm:text-[9px]">
                     {entry.start} — {entry.end}
-                    <span className="mx-2 inline-block h-px w-4 translate-y-[-3px] bg-border" />
-                    <span className="text-text-muted">{entry.location}</span>
+                    <br />
+                    <span className="text-text-muted/80">{entry.location}</span>
                   </p>
-                  <p className="pill mt-1 text-xs">{kindLabel[entry.kind]}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="pill">{kindLabel[entry.kind]}</span>
+                    {current ? <span className="pill pill-active">Current</span> : null}
+                  </div>
                 </header>
 
-                <div className="space-y-4 lg:pt-3">
+                <div className="space-y-4">
                   <div>
-                    <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-text-primary sm:text-4xl">
+                    <h2 className="font-heading text-[28px] font-medium leading-tight text-text-primary sm:text-3xl">
                       {entry.organization}
                     </h2>
-                    <p className="mt-1 font-heading text-lg italic text-text-secondary">{entry.role}</p>
+                    <p className="mt-1 font-heading text-lg text-gold">{entry.role}</p>
                   </div>
 
-                  <p className="max-w-2xl text-base leading-8 text-text-secondary">{entry.summary}</p>
+                  <p className="max-w-2xl text-base leading-7 text-text-secondary">{entry.summary}</p>
 
                   {compact ? null : <ExperienceDetails entry={entry} />}
                 </div>
@@ -156,20 +117,19 @@ export function ExperienceTimeline({
         );
       })}
 
-      {/* roots at the base of the vine */}
-      <li aria-hidden="true" className="relative h-10">
-        <svg
-          className="absolute -left-8 top-0 h-10 w-24 -translate-x-1/2 overflow-visible sm:-left-10"
-          viewBox="-48 0 96 40"
-        >
-          <g fill="none" stroke="var(--bark)" strokeLinecap="round" strokeWidth="2">
-            <path d="M0 -2 C-2 10 -10 14 -20 18 C-30 22 -38 24 -44 30" />
-            <path d="M0 -2 C2 10 10 14 20 18 C30 22 36 26 42 32" />
-            <path d="M0 -2 C-1 12 -4 22 -10 36" strokeWidth="1.4" />
-            <path d="M0 -2 C1 12 6 20 12 32" strokeWidth="1.4" />
-            <path d="M0 -2 C0 14 2 26 1 38" strokeWidth="1.1" />
-          </g>
-        </svg>
+      {/* ground at the base of the vine */}
+      <li aria-hidden="true" className="relative h-8">
+        <span
+          className="pixelated absolute top-0"
+          style={{
+            left: px(-TEXT_LEFT),
+            width: px(16),
+            height: px(4),
+            backgroundImage: "url(/pixel/ground.png)",
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
       </li>
     </ol>
   );

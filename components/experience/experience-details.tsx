@@ -1,6 +1,7 @@
-import { ArrowUpRight } from "lucide-react";
-
 import type { ExperienceEntry } from "@/content/experience";
+
+const bullet =
+  "relative pl-5 text-[15px] leading-7 text-text-secondary before:absolute before:left-0 before:top-[0.65em] before:size-[var(--unit)]";
 
 /**
  * Essential accomplishments stay visible; only the long tail (links, images)
@@ -13,10 +14,7 @@ export function ExperienceDetails({ entry }: { entry: ExperienceEntry }) {
     <div className="space-y-5">
       <ul className="space-y-2">
         {entry.responsibilities.map((item) => (
-          <li
-            className="relative pl-5 text-sm leading-7 text-text-secondary before:absolute before:left-0 before:top-[0.8em] before:size-1.5 before:rounded-full before:bg-leaf"
-            key={item}
-          >
+          <li className={`${bullet} before:bg-leaf`} key={item}>
             {item}
           </li>
         ))}
@@ -25,10 +23,7 @@ export function ExperienceDetails({ entry }: { entry: ExperienceEntry }) {
       {entry.achievements?.length ? (
         <ul className="space-y-2">
           {entry.achievements.map((item) => (
-            <li
-              className="relative pl-5 text-sm leading-7 text-text-primary before:absolute before:left-0 before:top-[0.8em] before:size-1.5 before:rounded-full before:bg-gold"
-              key={item}
-            >
+            <li className={`${bullet} text-text-primary before:bg-gold`} key={item}>
               {item}
             </li>
           ))}
@@ -38,7 +33,7 @@ export function ExperienceDetails({ entry }: { entry: ExperienceEntry }) {
       {entry.technologies.length ? (
         <div className="flex flex-wrap gap-2">
           {entry.technologies.map((tag) => (
-            <span className="pill text-xs" key={tag}>
+            <span className="pill" key={tag}>
               {tag}
             </span>
           ))}
@@ -47,20 +42,20 @@ export function ExperienceDetails({ entry }: { entry: ExperienceEntry }) {
 
       {hasExtras ? (
         <details className="group">
-          <summary className="cursor-pointer text-sm text-text-muted hover:text-text-primary">
+          <summary className="cursor-pointer font-label text-[8px] uppercase leading-[1.8] tracking-[0.04em] text-text-muted hover:text-text-primary sm:text-[9px]">
             More from this role
           </summary>
           <div className="mt-3 flex flex-wrap gap-4">
             {entry.links?.map((link) => (
               <a
-                className="inline-flex items-center gap-1 text-sm text-text-primary hover:text-accent-strong"
+                className="inline-flex items-center gap-1 text-[15px] text-text-primary underline decoration-border underline-offset-4 hover:decoration-accent"
                 href={link.href}
                 key={link.href}
                 rel="noreferrer"
                 target="_blank"
               >
                 {link.label}
-                <ArrowUpRight className="size-3.5" />
+                <span aria-hidden="true">↗</span>
               </a>
             ))}
           </div>
