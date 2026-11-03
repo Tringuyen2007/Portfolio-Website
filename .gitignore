@@ -6,3 +6,10 @@ out
 .env*
 !.env.example
 *.tsbuildinfo
+
+# Raw source photos (full-size, with camera/GPS metadata). The site uses the
+# resized, metadata-free copies in public/images/projects.
+/img/*
+!/img/IMG_9884.jpg
+# Local copy of the resume; the published one is public/Tri_technical_resume.pdf
+/Tri_Master_resume*.pdf
