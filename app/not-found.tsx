@@ -1,25 +1,28 @@
 import Link from "next/link";
 
 import { Container } from "@/components/container";
+import { Sprite } from "@/components/home/sprite";
 
 export default function NotFound() {
   return (
     <section className="py-18 sm:py-24">
-      <Container className="max-w-3xl space-y-6">
-        <p className="eyebrow-plain">404</p>
-        <h1 className="text-4xl font-semibold tracking-[-0.045em] text-text-primary sm:text-5xl">
-          That page is not here.
-        </h1>
-        <p className="text-base leading-8 text-text-secondary sm:text-lg">
-          The route may have changed, or it may not exist yet. The project index is
-          the best place to jump back in.
-        </p>
-        <Link
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated px-5 py-3 text-sm font-medium text-text-primary hover:bg-bg-soft"
-          href="/projects"
-        >
-          Back to projects
-        </Link>
+      <Container className="max-w-3xl">
+        <div className="panel space-y-6 p-8 sm:p-12">
+          <div className="flex items-center gap-4">
+            <Sprite name="apple-red" />
+            <p className="eyebrow-plain text-accent">404 · Fell off the tree</p>
+          </div>
+          <h1 className="font-heading text-4xl font-bold leading-[1.05] text-text-primary sm:text-5xl">
+            That page is not here.
+          </h1>
+          <p className="max-w-[640px] text-[17px] leading-[29px] text-text-secondary">
+            The route may have changed, or it may not exist yet. The project tree is the best
+            place to jump back in.
+          </p>
+          <Link className="btn-primary" href="/projects">
+            Back to the tree
+          </Link>
+        </div>
       </Container>
     </section>
   );

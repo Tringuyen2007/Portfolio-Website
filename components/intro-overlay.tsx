@@ -38,13 +38,14 @@ export function IntroOverlay() {
         <motion.div
           animate={{ opacity: phase === "exiting" ? 0 : 1 }}
           className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-bg"
+          data-intro-overlay=""
           exit={{ opacity: 0 }}
           initial={{ opacity: 1 }}
           transition={{ duration: EXIT_MS / 1000, ease: "easeInOut" }}
         >
           <motion.span
             animate={{ opacity: 1, scale: 1 }}
-            className="text-sm tracking-[0.3em] text-text-primary uppercase"
+            className="font-pixel text-3xl font-bold text-text-primary uppercase sm:text-4xl"
             initial={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >

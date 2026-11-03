@@ -1,25 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #101410;
-  --bg-elevated: #171c16;
-  --bg-soft: #1f2620;
-  --border: #2b3429;
-  --text-primary: #f1ead8;
-  --text-secondary: #b8b19b;
-  --text-muted: #7f7b68;
-  --accent: #d9b55a;
-  --accent-strong: #f0d27a;
-  --leaf: #6f9a5a;
-  --leaf-deep: #3f5d38;
-  --bark: #6b4a36;
-  --bark-deep: #3b2a1f;
-  --apple: #c8463c;
-  --apple-deep: #8e2f2a;
-  --gold: #e9c35c;
-  --gold-deep: #a9822a;
+  /* Pixel Orchard palette (designs: docs/pixel-redesign/figma-design-spec.md) */
+  --bg: #0a0e24;
+  --bg-elevated: #161a2f;
+  --bg-soft: #2b3058;
+  --border: #4a4f80;
+  --text-primary: #f3ead6;
+  --text-secondary: #c9c1ad;
+  --text-muted: #a79f8f;
+  --ink: #1a1428;
+  --accent: #e9b63a;
+  --accent-strong: #ffd95a;
+  --leaf: #3f8a46;
+  --leaf-hi: #5fb35a;
+  --leaf-deep: #1e4a2a;
+  --bark: #5a3a24;
+  --bark-deep: #3b2416;
+  --apple: #d9403f;
+  --apple-hi: #f07a6a;
+  --apple-deep: #8e1f26;
+  --gold: #e9b63a;
+  --gold-hi: #ffd95a;
+  --gold-deep: #a8771a;
+  --ench: #b25ee8;
+  --ench-hi: #e3a6ff;
+  --ench-deep: #6a2f9c;
+  --sky-1: #111737;
+  --sky-2: #1b2048;
+  --sky-3: #2a2a5c;
+  --sky-4: #3a3470;
   --blossom: #e8b4c0;
   --blossom-deep: #b0788a;
+  /* 1 art pixel in CSS px */
+  --unit: 4px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --unit: 3px;
+  }
 }
 
 @theme inline {
@@ -40,9 +60,19 @@
   --color-apple-deep: var(--apple-deep);
   --color-gold: var(--gold);
   --color-gold-deep: var(--gold-deep);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-fraunces);
+  --color-gold-hi: var(--gold-hi);
+  --color-apple-hi: var(--apple-hi);
+  --color-leaf-hi: var(--leaf-hi);
+  --color-ink: var(--ink);
+  --color-ench: var(--ench);
+  --color-ench-hi: var(--ench-hi);
+  --color-ench-deep: var(--ench-deep);
+  /* One pixel typeface everywhere: Pixelify Sans for body and code, Press Start 2P for tiny labels. */
+  --font-sans: var(--font-pixelify);
+  --font-mono: var(--font-pixelify);
+  --font-heading: var(--font-pixelify);
+  --font-pixel: var(--font-pixelify);
+  --font-label: var(--font-press-start);
 }
 
 @layer base {
@@ -52,10 +82,17 @@
 
   body {
     @apply min-h-screen bg-bg font-sans text-text-primary antialiased;
-    background-image:
-      radial-gradient(ellipse 70% 45% at 50% 115%, rgba(217, 181, 90, 0.12), transparent 65%),
-      radial-gradient(ellipse 60% 40% at 15% -10%, rgba(111, 154, 90, 0.08), transparent 60%),
-      linear-gradient(180deg, rgba(241, 234, 216, 0.02), transparent 25%);
+  }
+
+  /* Pixel type everywhere: crisp, no subpixel smoothing. */
+  body, h1, h2, h3, .font-heading, .font-pixel {
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+  }
+
+  img[data-pixel], .pixelated {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 
   a {
@@ -131,15 +168,39 @@
   }
 
   .eyebrow-plain {
-    @apply text-xs font-medium uppercase tracking-[0.2em] text-text-muted;
+    @apply font-label text-[9px] uppercase tracking-[0.08em] text-text-muted;
+    line-height: 1.6;
   }
 
+  /* Pixel buttons: 1-art-px border, inset highlight, no radius; pressed nudges 1 art px. */
   .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-bg transition hover:bg-accent-strong;
+    @apply inline-flex items-center gap-2 bg-accent px-5 py-3 font-pixel text-lg text-ink transition hover:bg-accent-strong;
+    border: var(--unit) solid var(--gold-deep);
+    box-shadow: inset 0 var(--unit) 0 var(--gold-hi);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-text-secondary transition hover:border-text-muted hover:text-text-primary;
+    @apply inline-flex items-center gap-2 bg-bg-elevated px-5 py-3 font-pixel text-lg text-text-primary transition hover:bg-bg-soft;
+    border: var(--unit) solid var(--border);
+    box-shadow: inset 0 var(--unit) 0 var(--bg-soft);
+  }
+
+  .btn-primary:active,
+  .btn-secondary:active {
+    transform: translateY(var(--unit));
+    box-shadow: none;
+  }
+
+  /* Pixel panel: the design's Panel component. */
+  .panel {
+    @apply bg-bg-elevated;
+    border: var(--unit) solid var(--border);
+    box-shadow: inset 0 var(--unit) 0 var(--bg-soft);
+  }
+
+  .section-rule {
+    height: 2px;
+    background: var(--border);
   }
 
   .hairline {
@@ -180,11 +241,27 @@
   }
 
   .surface {
-    @apply rounded-3xl border border-border bg-bg-elevated/90;
+    @apply bg-bg-elevated/95;
+    border: var(--unit) solid var(--border);
+    box-shadow: inset 0 var(--unit) 0 var(--bg-soft);
   }
 
   .pill {
-    @apply inline-flex items-center rounded-full border border-border bg-bg-soft px-3 py-1 text-sm text-text-secondary;
+    @apply inline-flex items-center bg-bg-elevated px-3 py-1 font-pixel text-sm text-text-primary;
+    border: 2px solid var(--border);
+  }
+
+  /* Filter chips are touch controls: keep the 44 px target on phones. */
+  @media (max-width: 767px) {
+    button.pill,
+    a.pill {
+      min-height: 44px;
+    }
+  }
+
+  .pill-active {
+    @apply bg-accent text-ink;
+    border-color: var(--gold-deep);
   }
 
   [data-prose] {
@@ -237,15 +314,15 @@
   }
 
   [data-prose] blockquote {
-    @apply rounded-2xl border border-border bg-bg-soft px-5 py-4 text-text-primary;
+    @apply border-2 border-border bg-bg-elevated px-5 py-4 text-text-primary;
   }
 
   [data-prose] code {
-    @apply rounded-md bg-bg-soft px-1.5 py-0.5 font-mono text-[0.92em] text-text-primary;
+    @apply bg-bg-elevated px-1.5 py-0.5 font-mono text-[0.92em] text-text-primary;
   }
 
   [data-prose] pre {
-    @apply overflow-x-auto rounded-2xl border border-border bg-[#16191d] p-5;
+    @apply overflow-x-auto border-2 border-border bg-bg-elevated p-5;
   }
 
   [data-prose] pre code {
@@ -254,5 +331,60 @@
 
   [data-prose] hr {
     @apply mt-10 border-border;
+  }
+}
+
+@keyframes apple-sway {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(calc(var(--unit) * -1)); }
+}
+
+@keyframes ench-pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.35; }
+}
+
+@layer components {
+  .ench-glow {
+    animation: ench-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+/* Route template crossfade (app/template.tsx). Only runs when motion is welcome. */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-enter {
+    animation: page-enter 320ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+}
+
+/* Framer reveals (ScrollReveal, hero) render identically on server and client;
+   reduced motion overrides their inline styles so nothing fades or slides. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  [data-intro-overlay] {
+    display: none !important;
+  }
+}
+
+/* Hero cloud bank: each layer slides one tile width per cycle in whole art-px steps. */
+@keyframes cloud-drift {
+  from { background-position-x: 0; }
+  to { background-position-x: var(--tile); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cloud-bank-layer {
+    animation-name: cloud-drift;
+    animation-timing-function: steps(var(--steps));
+    animation-iteration-count: infinite;
   }
 }

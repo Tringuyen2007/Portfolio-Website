@@ -16,12 +16,17 @@ import {
 export type ZoomRect = { x: number; y: number; width: number; height: number };
 
 export type ZoomRequest = {
-  /** "fruit": a fruit grows to fill the viewport. "tree": a preview card grows to fill it. */
-  kind: "fruit" | "tree";
+  /**
+   * "apple": the apple sprite grows in integer steps toward the project page.
+   * "fruit": legacy radial fruit. "tree": a preview card grows to fill the viewport.
+   */
+  kind: "apple" | "fruit" | "tree";
   href: string;
   rect: ZoomRect;
   /** Fill of the growing clone (fruit gradient colors, or the tree card background). */
   colors: [string, string];
+  /** 1× sprite URL for kind "apple" (rendered nearest-neighbour). */
+  sprite?: string;
   /** Optional content drawn at the clone's center as it grows (cover art). */
   art?: ReactNode;
   /** Slug to restore on return. */
@@ -30,8 +35,11 @@ export type ZoomRequest = {
 
 type ZoomContextValue = {
   zoomTo: (request: ZoomRequest) => void;
-  /** Reverse journey: cover the page, navigate, then shrink into the fruit/card at `selector`. */
-  zoomBack: (href: string, selector: string, colors: [string, string]) => void;
+  /**
+   * Reverse journey: cover the page, navigate, then shrink into the apple/card at `selector`.
+   * With `sprite`, the clone is the apple sprite instead of a covering disc.
+   */
+  zoomBack: (href: string, selector: string, colors: [string, string], sprite?: string) => void;
   active: boolean;
 };
 
@@ -49,6 +57,18 @@ export function useZoom() {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const WATCHDOG_MS = 2600;
+/** Apple zoom: stepped, nearest-neighbour scale snaps (no easing on sprites). */
+const APPLE_STEPS: { at: number; scale: number }[] = [
+  { at: 0, scale: 1 },
+  { at: 120, scale: 1.5 },
+  { at: 250, scale: 6 },
+];
+const APPLE_PUSH_MS = 250;
+const APPLE_DIM = 0.6;
+
+function sleep(ms: number) {
+  return new Promise<void>((resolve) => window.setTimeout(resolve, ms));
+}
 
 function coverScale(rect: ZoomRect) {
   const cx = rect.x + rect.width / 2;
@@ -150,6 +170,30 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
         const clone = cloneRef.current;
         const dim = dimRef.current;
         if (!clone || !dim || runRef.current !== run) return;
+
+        if (request.kind === "apple") {
+          // Dim to 60%, snap the sprite through integer-ish steps, push at 250 ms,
+          // then fade once the project hero has mounted beneath.
+          animate(dim, { opacity: [0, APPLE_DIM] }, { duration: 0.25, ease: "easeOut" });
+          clone.style.transition = "none";
+          let previous = 0;
+          for (const step of APPLE_STEPS) {
+            if (step.at > previous) await sleep(step.at - previous);
+            previous = step.at;
+            if (runRef.current !== run) return;
+            clone.style.transform = `scale(${step.scale})`;
+          }
+          window.setTimeout(() => {
+            if (runRef.current === run) router.push(request.href);
+          }, Math.max(0, APPLE_PUSH_MS - previous));
+          await waitForTarget("[data-zoom-target]");
+          if (runRef.current !== run) return;
+          await animate(clone, { opacity: 0 }, { duration: 0.3, ease: "easeInOut" });
+          animate(dim, { opacity: 0 }, { duration: 0.25 });
+          if (runRef.current === run) clear();
+          return;
+        }
+
         const scale = coverScale(request.rect);
         animate(dim, { opacity: [0, 0.75] }, { duration: 0.45, ease: "easeOut" });
         const grow = animate(
@@ -177,7 +221,7 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
   );
 
   const zoomBack = useCallback(
-    (href: string, selector: string, colors: [string, string]) => {
+    (href: string, selector: string, colors: [string, string], sprite?: string) => {
       if (prefersReducedMotion) {
         router.push(href);
         return;
@@ -186,11 +230,15 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
       const run = runRef.current;
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const size = Math.max(vw, vh) * 2.2;
+      const apple = Boolean(sprite);
+      // Apple: a ×6 sprite centred on screen shrinks into the apple's hit target.
+      // Otherwise a covering disc hides the page swap and shrinks into the card.
+      const size = apple ? 48 * 6 : Math.max(vw, vh) * 2.2;
       setStage({
-        kind: "fruit",
+        kind: apple ? "apple" : "fruit",
         href,
         colors,
+        sprite,
         rect: { x: vw / 2 - size / 2, y: vh / 2 - size / 2, width: size, height: size },
       });
       setActive(true);
@@ -201,7 +249,8 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
         const clone = cloneRef.current;
         const dim = dimRef.current;
         if (!clone || !dim || runRef.current !== run) return;
-        await animate(clone, { opacity: [0, 1] }, { duration: 0.32, ease: "easeIn" });
+        if (apple) animate(dim, { opacity: [0, APPLE_DIM] }, { duration: 0.25, ease: "easeOut" });
+        await animate(clone, { opacity: [0, 1] }, { duration: apple ? 0.18 : 0.32, ease: "easeIn" });
         if (runRef.current !== run) return;
         router.push(href);
         const target = await waitForTarget(selector);
@@ -209,19 +258,37 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
         if (target) {
           target.scrollIntoView({ block: "center", behavior: "instant" });
           const rect = target.getBoundingClientRect();
-          const toScale = Math.max(rect.width, rect.height) / size;
+          const toScale = (apple ? Math.min(rect.width, rect.height) : Math.max(rect.width, rect.height)) / size;
           const dx = rect.x + rect.width / 2 - vw / 2;
           const dy = rect.y + rect.height / 2 - vh / 2;
-          await animate(
-            clone,
-            { scale: [1, toScale], x: [0, dx], y: [0, dy] },
-            { duration: 0.7, ease: EASE },
-          );
+          if (apple) {
+            // Stepped shrink: ×6 → ×1.5 → ×1 (mirror of the way in).
+            clone.style.transition = "none";
+            const steps = [...APPLE_STEPS].reverse();
+            let previous = 250;
+            for (const step of steps) {
+              const wait = previous - step.at;
+              if (wait > 0) await sleep(wait);
+              previous = step.at;
+              if (runRef.current !== run) return;
+              const s = (step.scale / 6) * (1 - toScale) + toScale;
+              const t = step.scale === 6 ? 0 : 1;
+              clone.style.transform = `translate(${dx * t}px, ${dy * t}px) scale(${s})`;
+            }
+            await sleep(80);
+          } else {
+            await animate(
+              clone,
+              { scale: [1, toScale], x: [0, dx], y: [0, dy] },
+              { duration: 0.7, ease: EASE },
+            );
+          }
           if (runRef.current !== run) return;
           await animate(clone, { opacity: 0 }, { duration: 0.25 });
         } else {
           await animate(clone, { opacity: 0 }, { duration: 0.4 });
         }
+        animate(dim, { opacity: 0 }, { duration: 0.25 });
         if (runRef.current === run) clear();
       });
     },
@@ -238,7 +305,22 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
         className={`pointer-events-none fixed inset-0 z-[70] ${stage ? "" : "hidden"}`}
       >
         <div className="absolute inset-0 bg-bg opacity-0" ref={dimRef} />
-        {stage ? (
+        {stage?.kind === "apple" ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            alt=""
+            className="zoom-apple-clone absolute will-change-transform"
+            ref={cloneRef as unknown as React.RefObject<HTMLImageElement>}
+            src={stage.sprite}
+            style={{
+              left: stage.rect.x,
+              top: stage.rect.y,
+              width: stage.rect.width,
+              height: stage.rect.height,
+              transformOrigin: "center",
+            }}
+          />
+        ) : stage ? (
           <div
             className="absolute will-change-transform"
             ref={cloneRef}
@@ -247,7 +329,7 @@ export function ZoomProvider({ children }: { children: ReactNode }) {
               top: stage.rect.y,
               width: stage.rect.width,
               height: stage.rect.height,
-              borderRadius: stage.kind === "fruit" ? "9999px" : "1.6rem",
+              borderRadius: stage.kind === "fruit" ? "9999px" : "0",
               background: `radial-gradient(circle at 35% 30%, ${stage.colors[0]}, ${stage.colors[1]})`,
               transformOrigin: "center",
             }}

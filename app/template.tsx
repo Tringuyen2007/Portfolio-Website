@@ -1,28 +1,8 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-
-export default function Template({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return <>{children}</>;
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-      }}
-    >
-      {children}
-    </motion.div>
-  );
+/**
+ * Content-only crossfade on every route change; the sky behind it persists.
+ * Plain CSS (see `.page-enter` in globals.css) so the server and client render the
+ * same markup, content stays visible without JS, and reduced motion skips it entirely.
+ */
+export default function Template({ children }: { children: React.ReactNode }) {
+  return <div className="page-enter">{children}</div>;
 }
