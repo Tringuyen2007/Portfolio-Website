@@ -1,0 +1,33 @@
+{
+  "frame": {
+    "w": 32,
+    "h": 28
+  },
+  "frames": 4,
+  "animations": {
+    "sleep": {
+      "row": 0,
+      "ms": 520
+    },
+    "water": {
+      "row": 1,
+      "ms": 200
+    },
+    "dance": {
+      "row": 2,
+      "ms": 220
+    },
+    "rice": {
+      "row": 3,
+      "ms": 320
+    },
+    "sushi": {
+      "row": 4,
+      "ms": 340
+    },
+    "protein": {
+      "row": 5,
+      "ms": 260
+    }
+  }
+}
