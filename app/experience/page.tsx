@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Professional, leadership, and technical experience of Tri Nguyen: software engineering internships, web development, and ACM leadership at UTSA.",
+    "Professional, leadership, and technical experience of Tri Nguyen: software engineering internships, web development, Major League Hacking coaching, and ACM leadership at UTSA.",
   alternates: {
     canonical: "/experience",
   },
@@ -28,7 +28,7 @@ export default function ExperiencePage() {
             </h1>
             <p className="max-w-xl text-base leading-8 text-text-secondary sm:text-[17px]">
               The roles that shaped how I build: shipping production sites, working inside cloud
-              infrastructure, and keeping a 2000-member student organization running.
+              infrastructure, coaching 100+ hackers for Major League Hacking, and keeping a 2000-member student organization running.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
