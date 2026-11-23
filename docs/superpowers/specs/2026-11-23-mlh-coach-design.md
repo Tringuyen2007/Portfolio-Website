@@ -85,3 +85,22 @@ experience `images` reference these files, so each photo ships once.
 
 Resume PDF, contact page, homepage copy beyond what the vine preview pulls
 automatically, new apple kinds, award badges.
+
+## Implementation notes (2026-11-23)
+
+Two assumptions in this spec turned out wrong during the build:
+
+- **Every apple needs a pixel scene.** `tests/scene-manifest.test.ts` requires
+  `public/pixel/scene-<slug>-f{0,1}.png`. Added an `mlh-coach` scene to
+  `scripts/pixel/scenes.mjs`: a coach behind a navy MLH table with red/blue/yellow
+  blocks and a laptop, where an idea bulb lights up in frame 2. Regenerate with
+  `npm run build:pixel`.
+- **Experience `images` were never rendered.** `ExperienceDetails` counted them
+  toward showing the "More from this role" drawer but only drew links. The drawer now
+  renders them with `ProjectGallery`, so role photos get the same pixel frame and
+  lightbox as project pages.
+- The photos were re-encoded to roughly 240 KB each to match the other galleries.
+
+Verified: `npm test` 16/16, `npm run lint` clean, `npm run build` passes. In the
+browser, the MLH vine renders first with its three photos, the Community branch shows
+one red apple linking to `/projects/mlh-coach`, and there are no console errors.
