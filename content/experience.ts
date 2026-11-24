@@ -22,6 +22,31 @@ export type ExperienceEntry = {
  */
 export const experience: ExperienceEntry[] = [
   {
+    id: "mlh-coach",
+    organization: "Major League Hacking",
+    role: "Major League Hacking Coach",
+    kind: "leadership",
+    start: "November 2026",
+    end: "Present",
+    location: "Arlington, TX",
+    summary:
+      "On-the-ground coach for the official student hackathon league: mentoring builders, running MLH's sponsor challenges, and helping first-time hackers ship at HackUTA.",
+    responsibilities: [
+      "Mentored 100+ hackers at HackUTA, helping teams scope ideas, debug across their stacks, and ship working demos before the submission deadline.",
+      "Ran the MLH table and sponsor challenge tracks (Solana, Tiger Data, DEV), guiding teams on prize requirements and integrations.",
+      "Led hands-on workshops and mini-events that gave beginners a low-pressure way into building.",
+      "Supported judging and prize submissions, making sure teams met MLH challenge criteria and submitted on time.",
+      "Onboarded first-time hackers through team formation, tooling setup, and their first project pitch.",
+    ],
+    technologies: [],
+    achievements: ["Mentored 100+ hackers at HackUTA."],
+    images: [
+      { src: "/images/projects/mlh-coach/1.jpg", alt: "Tri and two fellow coaches at the Major League Hacking table at HackUTA" },
+      { src: "/images/projects/mlh-coach/2.jpg", alt: "The MLH coaching crew in laurel crowns and MLH shirts" },
+      { src: "/images/projects/mlh-coach/3.jpg", alt: "The coaching team at dinner during HackUTA weekend" },
+    ],
+  },
+  {
     id: "better-future-institute",
     organization: "Better Future Institute",
     role: "Software Engineer Intern",

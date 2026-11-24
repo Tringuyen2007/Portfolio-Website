@@ -1,3 +1,4 @@
+import { ProjectGallery } from "@/components/gallery/project-gallery";
 import type { ExperienceEntry } from "@/content/experience";
 
 const bullet =
@@ -45,6 +46,11 @@ export function ExperienceDetails({ entry }: { entry: ExperienceEntry }) {
           <summary className="cursor-pointer font-label text-[8px] uppercase leading-[1.8] tracking-[0.04em] text-text-muted hover:text-text-primary sm:text-[9px]">
             More from this role
           </summary>
+          {entry.images?.length ? (
+            <div className="mt-4">
+              <ProjectGallery images={entry.images} title={entry.organization} />
+            </div>
+          ) : null}
           <div className="mt-3 flex flex-wrap gap-4">
             {entry.links?.map((link) => (
               <a

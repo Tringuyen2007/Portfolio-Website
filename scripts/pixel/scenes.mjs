@@ -370,6 +370,41 @@ const portfolio1 = portfolio0.map((row, y) => {
   return row;
 });
 
+const mlhcoach0 = [
+  "................................",
+  "..........kkk...................",
+  ".........kgggk..................",
+  ".........kgggk..................",
+  "..........ddd...................",
+  "................................",
+  "........kkkkkkk...kkkkkkkkkk....",
+  "........kiiiiik...kfsssssffk....",
+  "........kikikik...kfflllllfk....",
+  "........kiiiiik...kfsssffffk....",
+  "........kkkkkkk...kfffyyyffk....",
+  ".......kbbbbbbbk..kkkkkkkkkk....",
+  ".......kbbbbbbbk.kggggggggggk...",
+  "..kkkkkkkkkkkkkkkkkkkkkkkkkkkk..",
+  "..kbbbbbbbbbbbbbbbbbbbbbbbbbbk..",
+  "..kBBBBBBBBBBBBBBBBBBBBBBBBBBk..",
+  "..kBBBBBBrrrrBbbbbByyyyBBBBBBk..",
+  "..kBBBBBBrrrrBbbbbByyyyBBBBBBk..",
+  "..kBBBBBBrrrrBbbbbByyyyBBBBBBk..",
+  "..kBBBBBBBBBBBBBBBBBBBBBBBBBBk..",
+  "..kBBBBBBBBBBBBBBBBBBBBBBBBBBk..",
+  "..kBBBBBBBBBBBBBBBBBBBBBBBBBBk..",
+  "..kkkkkkkkkkkkkkkkkkkkkkkkkkkk..",
+  "................................",
+];
+// frame 2: the idea lightbulb over the coach switches on
+const mlhcoach1 = mlhcoach0.map((row, y) => {
+  if (y === 0) return "...........y....................";
+  if (y === 1) return "........y.kkk.y.................";
+  if (y === 2) return ".......y.kXXXk.y................";
+  if (y === 3) return ".........kXXXk..................";
+  return row;
+});
+
 export const scenes = {
   vision: { frames: [vision0, vision1], loop: 1400, title: "Blueprint to built: a parcel's buildable envelope resolves into a house" },
   mira: { frames: [mira0, mira1], loop: 700, title: "Webcam pose skeleton doing a rep; rep bar fills; heart beats" },
@@ -381,4 +416,5 @@ export const scenes = {
   leanify: { frames: [leanify0, leanify1], loop: 1200, title: "Phone with carb/protein/fat bars and a week of L/M/H day types" },
   "vending-machine-robot": { frames: [robot0, robot1], loop: 600, title: "Boxy robot blinks, antenna lights, wheels turn" },
   "portfolio-website": { frames: [portfolio0, portfolio1], loop: 1300, title: "A browser window with the tree inside; a new apple ripens; the cursor moves" },
+  "mlh-coach": { frames: [mlhcoach0, mlhcoach1], loop: 1000, title: "A coach behind the MLH table with a laptop; an idea lightbulb switches on" },
 };
